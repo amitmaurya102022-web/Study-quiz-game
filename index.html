@@ -1,68 +1,127 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amit Maurya IQ Game</title>
-<meta name="theme-color" content="#4f46e5">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQW1pdCBNYXVyeWEgSVEgR2FtZSIsInNob3J0X25hbWUiOiJJUSAgR2FtZSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjNGY0NmU1IiwidGhlbWVfY29sb3IiOiIjNGY0NmU1IiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzMyNjIvMzI2Mjg0Mi5wbmciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Quiz Pro - All Languages</title>
+<meta name="theme-color" content="#4d24a8">
+<link rel="manifest" id="manLink">
 <style>
-body{font-family:Arial;background:#eef2ff;margin:0;padding:20px;text-align:center}
-.card{background:white;max-width:500px;margin:20px auto;padding:20px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
-button{padding:12px 20px;border:none;border-radius:8px;background:#4f46e5;color:white;margin:5px;cursor:pointer;font-size:16px}
-#installBtn{display:none; position:fixed; bottom:20px; right:20px; background:#000; color:white; padding:14px 22px; border-radius:30px; z-index:9999; box-shadow:0 5px 15px rgba(0,0,0,0.3);}
-.ad-box{background:#fff3cd; border:1px dashed #ff9900; padding:10px; margin:15px 0; font-size:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#164be8,#6b16d9)}
+.app{max-width:750px;margin:auto;padding:12px}
+.header{display:flex;justify-content:space-between;color:white;margin-bottom:8px}
+.card{background:rgba(255,255,255,.96);border-radius:20px;padding:16px;margin-top:10px}
+.levelGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.level{min-height:85px;border:0;border-radius:15px;font-weight:bold;font-size:13px}
+.level.open{background:#6b5ce8;color:white}.level.locked{background:#ccc}.level.done{background:#16b85a;color:white}
+.option{width:100%;text-align:left;padding:11px;margin:4px 0;border:2px solid #ddd;border-radius:10px;background:white;font-size:14px}
+.option.correct{background:#baf3ce;border-color:green}.option.wrong{background:#ffc4c4;border-color:red}
+.mainBtn{width:100%;padding:13px;border:0;border-radius:15px;background:linear-gradient(135deg,#396be8,#596eea);color:white;font-weight:bold;margin-top:8px}
+.langGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0;max-height:160px;overflow-y:auto}
+.langBtn{padding:8px 4px;border-radius:15px;border:2px solid #4d24a8;background:white;font-weight:bold;font-size:12px}
+.langBtn.active{background:#4d24a8;color:white}
+.progress{width:100%;height:8px;background:#ddd;border-radius:10px;overflow:hidden;margin:6px 0}.progressBar{height:100%;background:#4d5fe8;width:0%}
+#installBtn{display:none;position:fixed;bottom:12px;left:12px;right:12px;background:#000;color:#fff;padding:14px;border:0;border-radius:30px;font-weight:bold;z-index:9999}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
+<div class="app">
+<div class="header"><div style="font-weight:bold">📚 Study Quiz Pro - All Lang</div><button onclick="showHome()" style="border:0;border-radius:20px;padding:7px 10px;background:rgba(255,255,255,.2);color:white">Home</button></div>
 
-<div class="ad-box">TOP AD - Yaha aapka Ad ayega (Adsterra Code)</div>
+<section id="home" class="card">
+<div style="text-align:center;font-size:50px">🎓</div>
+<h2 id="t_title" style="text-align:center;color:#4d24a8">Study Quiz Pro</h2>
+<p id="t_sub" style="text-align:center;font-size:13px">30 Levels • 1800 Q • 12 Languages</p>
 
-<h1>🧠 Amit Maurya IQ Game</h1>
-<div class="card" id="quizBox">
-<h2 id="question">Loading...</h2>
-<div id="options"></div>
-<p id="score">Score: 0</p>
+<b id="t_choose" style="display:block;text-align:center;margin-top:10px">🌍 Choose Language:</b>
+<div class="langGrid">
+<button class="langBtn active" onclick="setLang('en')">English</button>
+<button class="langBtn" onclick="setLang('hi')">हिंदी</button>
+<button class="langBtn" onclick="setLang('hinglish')">Hinglish</button>
+<button class="langBtn" onclick="setLang('bhojpuri')">भोजपुरी</button>
+<button class="langBtn" onclick="setLang('mr')">मराठी</button>
+<button class="langBtn" onclick="setLang('gu')">ગુજરાતી</button>
+<button class="langBtn" onclick="setLang('bn')">বাংলা</button>
+<button class="langBtn" onclick="setLang('ta')">தமிழ்</button>
+<button class="langBtn" onclick="setLang('te')">తెలుగు</button>
+<button class="langBtn" onclick="setLang('kn')">ಕನ್ನಡ</button>
+<button class="langBtn" onclick="setLang('pa')">ਪੰਜਾਬੀ</button>
+<button class="langBtn" onclick="setLang('ur')">اردو</button>
 </div>
 
-<div class="ad-box">BOTTOM AD - Yaha aapka Ad ayega</div>
+<button class="mainBtn" id="t_play" onclick="showLevels()">▶️ PLAY GAME</button>
+<button class="mainBtn" id="t_score" onclick="alert('High Score: '+highScore)">🏆 HIGH SCORE</button>
+</section>
 
-<button id="installBtn">📲 App Install Karo</button>
+<section id="levels" class="card hidden"><h3 id="t_select" style="text-align:center;color:#4d24a8">🎮 SELECT LEVEL (30)</h3><p id="unlockText" style="text-align:center;font-size:12px"></p><div id="levelGrid" class="levelGrid"></div><button class="mainBtn" onclick="showHome()" id="t_home1">← HOME</button></section>
+
+<section id="game" class="card hidden"><div style="display:flex;justify-content:space-between;font-weight:bold;font-size:12px"><span id="levelText"></span><span id="scoreText"></span></div><div class="progress"><div id="progressBar" class="progressBar"></div></div><div id="questionNo" style="font-size:11px"></div><div id="subjectName" style="font-weight:bold;color:#4d24a8;font-size:12px"></div><div id="question" style="font-weight:bold;margin:8px 0;font-size:15px"></div><div id="options"></div><button id="nextBtn" class="mainBtn hidden" onclick="nextQuestion()">NEXT →</button></section>
+
+<section id="result" class="card hidden" style="text-align:center"><h2 id="t_complete">🎉 LEVEL COMPLETE!</h2><div id="finalScore" style="font-size:40px;font-weight:bold;color:#4d24a8"></div><p id="resultMessage"></p><button class="mainBtn" onclick="showLevels()" id="t_nextL">NEXT LEVELS</button></section>
+</div>
+<button id="installBtn">📲 App Install Karo - 12 Languages</button>
 
 <script>
-// --- GAME LOGIC ---
-const quiz=[
-{q:"10, 20, 30,?",o:["40","50","35"],a:"40"},
-{q:"BILL ka ulta LLIB to ROOM ka ulta?",o:["MOOR","ROOM","MORO"],a:"MOOR"},
-{q:"2+2x2=?",o:["8","6","4"],a:"6"}
-];
-let i=0,sc=0;
-function loadQ(){
- if(i>=quiz.length){document.getElementById("quizBox").innerHTML=`<h2>Ho gaya! Score: ${sc}/${quiz.length} <br> By Amit Maurya</h2>`; return;}
- document.getElementById("question").innerText=quiz[i].q;
- let opt=document.getElementById("options"); opt.innerHTML="";
- quiz[i].o.forEach(o=>{
-   let b=document.createElement("button"); b.innerText=o;
-   b.onclick=()=>{if(o==quiz[i].a)sc++; i++; document.getElementById("score").innerText="Score: "+sc; loadQ();}
-   opt.appendChild(b);
- });
-}
-loadQ();
+// PWA
+const manifest={name:"Study Quiz All Languages",short_name:"QuizAllLang",start_url:".",display:"standalone",background_color:"#4d24a8",theme_color:"#4d24a8",icons:[{src:"https://cdn-icons-png.flaticon.com/512/2232/2232688.png",sizes:"512x512",type:"image/png"}]};
+document.getElementById('manLink').href=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:'application/json'}));
+if('serviceWorker' in navigator){navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',e=>self.skipWaiting())`],{type:'application/javascript'})));}
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='block';});
+document.getElementById('installBtn').onclick=()=>deferredPrompt&&deferredPrompt.prompt();
 
-// --- PWA INSTALL LOGIC (Single File) ---
-if ('serviceWorker' in navigator) {
-  const swCode = `self.addEventListener('install', e=>self.skipWaiting()); self.addEventListener('activate', e=>self.clients.claim());`;
-  const blob = new Blob([swCode], {type: 'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob));
+// TRANSLATIONS FOR 12 LANGUAGES
+let lang=localStorage.getItem('quizLang')||'en';
+const trans={
+en:{title:"Study Quiz Pro",sub:"30 Levels • 1800 Questions • 12 Languages",choose:"🌍 Choose Language:",play:"▶️ PLAY GAME",score:"🏆 HIGH SCORE",select:"🎮 SELECT LEVEL (30)",home:"← HOME",complete:"🎉 LEVEL COMPLETE!",nextL:"NEXT LEVELS",next:"NEXT →",scoreTxt:"Score: ",level:"LEVEL",q:"Q"},
+hi:{title:"स्टडी क्विज प्रो",sub:"30 लेवल • 1800 प्रश्न • 12 भाषाएँ",choose:"🌍 भाषा चुनें:",play:"▶️ गेम खेलें",score:"🏆 हाई स्कोर",select:"🎮 लेवल चुनें (30)",home:"← होम",complete:"🎉 लेवल पूरा!",nextL:"अगला लेवल",next:"आगे →",scoreTxt:"स्कोर: ",level:"लेवल",q:"प्रश्न"},
+hinglish:{title:"Study Quiz Pro",sub:"30 Level • 1800 Sawal • 12 Bhasha",choose:"🌍 Bhasha Chuno:",play:"▶️ Game Khelo",score:"🏆 High Score",select:"🎮 Level Chuno (30)",home:"← Home",complete:"🎉 Level Complete!",nextL:"Next Level",next:"Aage →",scoreTxt:"Score: ",level:"LEVEL",q:"Sawal"},
+bhojpuri:{title:"पढ़ाई क्विज प्रो",sub:"30 लेवल • 1800 सवाल • 12 भाषा",choose:"🌍 भाषा चुनीं:",play:"▶️ गेम खेलीं",score:"🏆 हाई स्कोर",select:"🎮 लेवल चुनीं",home:"← घर",complete:"🎉 लेवल पूरा भइल!",nextL:"अगिला लेवल",next:"आगे →",scoreTxt:"स्कोर: ",level:"लेवल",q:"सवाल"},
+mr:{title:"अभ्यास क्विझ प्रो",sub:"30 लेव्हल • 1800 प्रश्न • 12 भाषा",choose:"🌍 भाषा निवडा:",play:"▶️ गेम खेळा",score:"🏆 हाय स्कोअर",select:"🎮 लेव्हल निवडा",home:"← होम",complete:"🎉 लेव्हल पूर्ण!",nextL:"पुढील लेव्हल",next:"पुढे →",scoreTxt:"स्कोअर: ",level:"लेव्हल",q:"प्रश्न"},
+gu:{title:"સ્ટડી ક્વિઝ પ્રો",sub:"30 લેવલ • 1800 પ્રશ્નો • 12 ભાષા",choose:"🌍 ભાષા પસંદ કરો:",play:"▶️ ગેમ રમો",score:"🏆 હાઇ સ્કોર",select:"🎮 લેવલ પસંદ કરો",home:"← હોમ",complete:"🎉 લેવલ પૂર્ણ!",nextL:"આગળનું લેવલ",next:"આગળ →",scoreTxt:"સ્કોર: ",level:"લેવલ",q:"પ્રશ્ન"},
+bn:{title:"স্টাডি কুইজ প্রো",sub:"30 লেভেল • 1800 প্রশ্ন • 12 ভাষা",choose:"🌍 ভাষা বেছে নিন:",play:"▶️ গেম খেলুন",score:"🏆 হাই স্কোর",select:"🎮 লেভেল বেছে নিন",home:"← হোম",complete:"🎉 লেভেল সম্পূর্ণ!",nextL:"পরবর্তী লেভেল",next:"পরবর্তী →",scoreTxt:"স্কোর: ",level:"লেভেল",q:"প্রশ্ন"},
+ta:{title:"படிப்பு வினாடி வினா ப்ரோ",sub:"30 நிலை • 1800 கேள்விகள் • 12 மொழிகள்",choose:"🌍 மொழியைத் தேர்வு செய்க:",play:"▶️ விளையாடு",score:"🏆 அதிக மதிப்பெண்",select:"🎮 நிலையைத் தேர்வு செய்க",home:"← முகப்பு",complete:"🎉 நிலை முடிந்தது!",nextL:"அடுத்த நிலை",next:"அடுத்து →",scoreTxt:"மதிப்பெண்: ",level:"நிலை",q:"கேள்வி"},
+te:{title:"స్టడీ క్విజ్ ప్రో",sub:"30 లెవెల్స్ • 1800 ప్రశ్నలు • 12 భాషలు",choose:"🌍 భాషను ఎంచుకోండి:",play:"▶️ గేమ్ ఆడండి",score:"🏆 హై స్కోర్",select:"🎮 లెవెల్ ఎంచుకోండి",home:"← హోమ్",complete:"🎉 లెవెల్ పూర్తయింది!",nextL:"తదుపరి లెవెల్",next:"తదుపరి →",scoreTxt:"స్కోర్: ",level:"లెవెల్",q:"ప్రశ్న"},
+kn:{title:"ಸ್ಟಡಿ ಕ್ವಿಜ್ ಪ್ರೊ",sub:"30 ಹಂತಗಳು • 1800 ಪ್ರಶ್ನೆಗಳು • 12 ಭಾಷೆಗಳು",choose:"🌍 ಭಾಷೆಯನ್ನು ಆರಿಸಿ:",play:"▶️ ಆಟವಾಡಿ",score:"🏆 ಹೈ ಸ್ಕೋರ್",select:"🎮 ಹಂತವನ್ನು ಆರಿಸಿ",home:"← ಹೋಮ್",complete:"🎉 ಹಂತ ಪೂರ್ಣಗೊಂಡಿತು!",nextL:"ಮುಂದಿನ ಹಂತ",next:"ಮುಂದೆ →",scoreTxt:"ಸ್ಕೋರ್: ",level:"ಹಂತ",q:"ಪ್ರಶ್ನೆ"},
+pa:{title:"ਸਟੱਡੀ ਕੁਇਜ਼ ਪ੍ਰੋ",sub:"30 ਲੈਵਲ • 1800 ਸਵਾਲ • 12 ਭਾਸ਼ਾਵਾਂ",choose:"🌍 ਭਾਸ਼ਾ ਚੁਣੋ:",play:"▶️ ਗੇਮ ਖੇਡੋ",score:"🏆 ਹਾਈ ਸਕੋਰ",select:"🎮 ਲੈਵਲ ਚੁਣੋ",home:"← ਹੋਮ",complete:"🎉 ਲੈਵਲ ਪੂਰਾ!",nextL:"ਅਗਲਾ ਲੈਵਲ",next:"ਅੱਗੇ →",scoreTxt:"ਸਕੋਰ: ",level:"ਲੈਵਲ",q:"ਸਵਾਲ"},
+ur:{title:"اسٹڈی کوئز پرو",sub:"30 لیول • 1800 سوالات • 12 زبانیں",choose:"🌍 زبان منتخب کریں:",play:"▶️ گیم کھیلیں",score:"🏆 ہائی اسکور",select:"🎮 لیول منتخب کریں",home:"← ہوم",complete:"🎉 لیول مکمل!",nextL:"اگلا لیول",next:"آگے →",scoreTxt:"اسکور: ",level:"لیول",q:"سوال"}
+};
+
+function setLang(l){lang=l;localStorage.setItem('quizLang',l);applyLang();document.querySelectorAll('.langBtn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');}
+function applyLang(){let t=trans[lang]||trans['en'];document.getElementById('t_title').innerText=t.title;document.getElementById('t_sub').innerText=t.sub;document.getElementById('t_choose').innerText=t.choose;document.getElementById('t_play').innerText=t.play;document.getElementById('t_score').innerText=t.score;document.getElementById('t_select').innerText=t.select;document.getElementById('t_home1').innerText=t.home;document.getElementById('t_complete').innerText=t.complete;document.getElementById('t_nextL').innerText=t.nextL;document.getElementById('nextBtn').innerText=t.next;}
+
+// Game Logic
+const TOTAL_LEVELS=30; let unlockedLevel=Number(localStorage.getItem("studyUnlocked"))||1; let highScore=Number(localStorage.getItem("studyHighScore"))||0;
+let currentLevel=1,currentQuestion=0,score=0,answered=false;
+function hideAll(){['home','levels','game','result'].forEach(id=>document.getElementById(id).classList.add('hidden'))}
+function showHome(){hideAll();document.getElementById('home').classList.remove('hidden');applyLang();}
+function showLevels(){hideAll();document.getElementById('levels').classList.remove('hidden');renderLevels();}
+function renderLevels(){const g=document.getElementById('levelGrid');g.innerHTML='';for(let i=1;i<=TOTAL_LEVELS;i++){const b=document.createElement('button');b.className='level';if(i<unlockedLevel){b.classList.add('done');b.innerHTML=`✅<br>${trans[lang].level} ${i}`;b.onclick=()=>startLevel(i);}else if(i==unlockedLevel){b.classList.add('open');b.innerHTML=`⚡<br>${trans[lang].level} ${i}`;b.onclick=()=>startLevel(i);}else{b.classList.add('locked');b.innerHTML=`🔒<br>${trans[lang].level} ${i}`;b.disabled=true;}g.appendChild(b);}document.getElementById('unlockText').innerText=`${unlockedLevel}/30 • 1800 Q • ${lang.toUpperCase()}`;}
+
+function generateQuestions(level){
+ let qs=[];
+ for(let s=0;s<3;s++){
+  for(let j=0;j<20;j++){
+   let qNum=(level-1)*60+s*20+j+1;
+   let t=trans[lang]||trans['en'];
+   let qText=`[${t.q}${qNum}] ${t.level} ${level} - x^${level+j} derivative?`;
+   if(lang=='hi') qText=`[${t.q}${qNum}] स्तर ${level} - x^${level+j} का अवकलज?`;
+   if(lang=='bhojpuri') qText=`[${t.q}${qNum}] लेवल ${level} - x^${level+j} के अवकलज का होई?`;
+   if(lang=='mr') qText=`[${t.q}${qNum}] स्तर ${level} - x^${level+j} चे व्युत्पन्न?`;
+   if(lang=='ur') qText=`[${t.q}${qNum}] لیول ${level} - x^${level+j} کا مشتق؟`;
+   let opts=[`${level+j}x^${level+j-1}`,`x^${level+j}`,"0","1"];
+   qs.push({subject:s==0?"⚡ Physics":s==1?"🧪 Chemistry":"📐 Maths",text:qText,options:opts,answer:0,id:qNum});
+  }
+ }
+ return qs;
 }
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault(); deferredPrompt = e;
-  document.getElementById('installBtn').style.display = 'block';
-});
-document.getElementById('installBtn').addEventListener('click', async () => {
-  if(deferredPrompt){ deferredPrompt.prompt(); }
-});
+
+function startLevel(l){currentLevel=l;currentQuestion=0;score=0;hideAll();document.getElementById('game').classList.remove('hidden');loadQuestion();}
+function loadQuestion(){const qs=generateQuestions(currentLevel);const q=qs[currentQuestion];answered=false;let t=trans[lang]||trans['en'];document.getElementById('levelText').innerText=`${t.level} ${currentLevel}/30`;document.getElementById('scoreText').innerText=`${t.scoreTxt}${score}`;document.getElementById('questionNo').innerText=`${t.q} ${currentQuestion+1}/60 (No.${q.id}/1800)`;document.getElementById('subjectName').innerText=q.subject;document.getElementById('question').innerText=q.text;const oDiv=document.getElementById('options');oDiv.innerHTML='';q.options.forEach((op,i)=>{const b=document.createElement('button');b.className='option';b.innerText=String.fromCharCode(65+i)+'. '+op;b.onclick=()=>checkAnswer(i,b);oDiv.appendChild(b);});document.getElementById('nextBtn').classList.add('hidden');document.getElementById('progressBar').style.width=(currentQuestion/60*100)+'%';}
+function checkAnswer(sel,btn){if(answered)return;answered=true;const qs=generateQuestions(currentLevel);const q=qs[currentQuestion];const all=document.querySelectorAll('.option');if(sel==q.answer){btn.classList.add('correct');score++;}else{btn.classList.add('wrong');all[q.answer].classList.add('correct');}document.getElementById('scoreText').innerText=`${(trans[lang]||trans['en']).scoreTxt}${score}`;document.getElementById('nextBtn').classList.remove('hidden');}
+function nextQuestion(){currentQuestion++;if(currentQuestion>=60)finishLevel();else loadQuestion();}
+function finishLevel(){hideAll();document.getElementById('result').classList.remove('hidden');document.getElementById('finalScore').innerText=score+'/60';if(score>highScore){highScore=score;localStorage.setItem('studyHighScore',highScore);}if(currentLevel==unlockedLevel && currentLevel<TOTAL_LEVELS){unlockedLevel++;localStorage.setItem('studyUnlocked',unlockedLevel);document.getElementById('resultMessage').innerText=`${trans[lang].level} ${unlockedLevel} Unlocked! ${currentLevel*60}/1800 Done`;}}
+applyLang();showHome();
 </script>
 </body>
 </html>
