@@ -1,82 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Study Quiz Pro</title>
-<meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2702/2702031.png">
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2702/2702031.png">
-<link rel="manifest" id="ml">
+<meta property="og:title" content="Study Quiz Pro - 12 Languages">
+<meta property="og:description" content="30 Levels - 1800 Questions - Subject Wise Quiz">
+<meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+<meta property="og:url" content="https://amitmaurya102022-web.github.io/Study-quiz-game/">
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+<link rel="manifest" id="manifestLink">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial;background:linear-gradient(135deg,#164be8,#6b16d9);min-height:100vh}
-/* PROFESSIONAL SPLASH */
-#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0f2ab8,#5a0ec4);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:99999;transition:0.8s}
-#splash.hide{transform:translateY(-100%)}
-.splashLogo{width:120px;height:120px;background:white;border-radius:35px;display:flex;justify-content:center;align-items:center;animation:pop 1.2s infinite alternate;box-shadow:0 10px 40px rgba(0,0,0,.3)}
-@keyframes pop{0%{transform:scale(0.9)}100%{transform:scale(1.1)}}
-.splashTitle{color:white;font-size:28px;font-weight:bold;margin-top:20px;letter-spacing:1px}
-.splashSub{color:#c9b6ff;font-size:14px;margin-top:6px}
-.loader{width:80px;height:6px;background:rgba(255,255,255,.2);border-radius:10px;margin-top:25px;overflow:hidden}
-.loaderBar{height:100%;width:0%;background:white;border-radius:10px;animation:load 2s forwards}
-@keyframes load{to{width:100%}}
-.app{max-width:750px;margin:auto;padding:12px}
-.header{display:flex;justify-content:space-between;color:white;font-weight:bold}
-.card{background:rgba(255,255,255,.97);border-radius:20px;padding:16px;margin-top:12px;animation:fadeIn.5s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-.levelGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.level{min-height:85px;border:0;border-radius:15px;font-weight:bold}
-.level.open{background:#6b5ce8;color:white}.level.locked{background:#ccc}.level.done{background:#16b85a;color:white}
-.subjectGrid{display:grid;grid-template-columns:1fr;gap:10px}
-.subjectCard{padding:18px;border-radius:15px;border:0;font-weight:bold;font-size:17px;display:flex;justify-content:space-between}
-.sub-phy{background:#e0d4ff;color:#4d24a8}.sub-chem{background:#c8f7d8;color:#0b6b2a}.sub-maths{background:#ffe0cc;color:#8a3a00}
-#question{font-size:21px;font-weight:bold;background:#f0f4ff;padding:14px;border-radius:12px;border-left:5px solid #4d24a8;margin:10px 0}
-.option{width:100%;text-align:left;padding:14px;margin:5px 0;border:2px solid #4d24a8;border-radius:12px;background:white;font-weight:bold}
-.mainBtn{width:100%;padding:14px;border:0;border-radius:15px;background:linear-gradient(135deg,#396be8,#596eea);color:white;font-weight:bold;margin-top:8px}
-.langGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.langBtn{padding:7px;border-radius:10px;border:2px solid #4d24a8;background:white;font-weight:bold;font-size:11px}.langBtn.active{background:#4d24a8;color:white}
-.progress{width:100%;height:10px;background:#ddd;border-radius:10px;overflow:hidden}.progressBar{height:100%;background:#4d5fe8;width:0%}
-.hidden{display:none!important}
-#installBtn{display:none;position:fixed;bottom:12px;left:12px;right:12px;background:#000;color:#fff;padding:14px;border:0;border-radius:30px;font-weight:bold;z-index:9999}
-</style>
-</head>
-<body>
-
-<!-- SPLASH SCREEN -->
-<div id="splash">
-<div class="splashLogo"><img src="https://cdn-icons-png.flaticon.com/512/2702/2702031.png" width="75"></div>
-<div class="splashTitle">STUDY QUIZ PRO</div>
-<div class="splashSub">30 Levels • 1800 Questions • 12 Languages</div>
-<div class="loader"><div class="loaderBar"></div></div>
-<div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:15px">By Amit Maurya</div>
-</div>
-
-<div class="app">
-<div class="header"><div>🎓 Study Quiz Pro</div><button onclick="showHome()" style="border:0;border-radius:20px;padding:6px 12px;background:rgba(255,255,255,.2);color:white">Home</button></div>
-
-<section id="home" class="card"><div style="text-align:center"><img src="https://cdn-icons-png.flaticon.com/512/2702/2702031.png" width="80" style="background:#eee;border-radius:20px;padding:10px"></div><h2 style="text-align:center;color:#4d24a8;margin:8px 0">Study Quiz Pro</h2><p style="text-align:center;font-size:12px">Subject Wise • 1800 Q • Wallpaper Theme</p>
-<div class="langGrid" style="margin:10px 0"><button class="langBtn active">English</button><button class="langBtn">हिंदी</button><button class="langBtn">Hinglish</button><button class="langBtn">भोजपुरी</button><button class="langBtn">मराठी</button><button class="langBtn">ગુજરાતી</button><button class="langBtn">বাংলা</button><button class="langBtn">தமிழ்</button><button class="langBtn">తెలుగు</button><button class="langBtn">ಕನ್ನಡ</button><button class="langBtn">ਪੰਜਾਬੀ</button><button class="langBtn">اردو</button></div>
-<button class="mainBtn" onclick="showLevels()">▶️ PLAY NOW</button></section>
-
-<section id="levels" class="card hidden"><h3 style="text-align:center;color:#4d24a8">SELECT LEVEL</h3><div id="levelGrid" class="levelGrid"></div></section>
-<section id="subjects" class="card hidden"><h3 id="subTitle" style="text-align:center;color:#4d24a8"></h3><div id="subjectGrid" class="subjectGrid"></div><button class="mainBtn" onclick="showLevels()">← LEVELS</button></section>
-<section id="game" class="card hidden"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:bold"><span id="levelText"></span><span id="scoreText"></span></div><div class="progress"><div id="progressBar" class="progressBar"></div></div><div id="question"></div><div id="options"></div><button id="nextBtn" class="mainBtn hidden" onclick="nextQuestion()">NEXT →</button></section>
-<section id="result" class="card hidden" style="text-align:center"><h2>🎉 Complete!</h2><div id="finalScore" style="font-size:35px;font-weight:bold;color:#4d24a8"></div><p id="resultMsg"></p><button class="mainBtn" onclick="backToSub()">Subjects</button><button class="mainBtn" onclick="showLevels()">Levels</button></section>
-</div>
-
-<script>
-// SPLASH AUTO HIDE AFTER 2.2 SEC - PROFESSIONAL
-setTimeout(()=>{document.getElementById('splash').classList.add('hide')},2200);
-
-// PWA ICON WITH NEELA TOPI
-const manifest={name:"Study Quiz Pro",short_name:"QuizPro",start_url:".",display:"standalone",background_color:"#4d24a8",theme_color:"#4d24a8",icons:[{src:"https://cdn-icons-png.flaticon.com/512/2702/2702031.png",sizes:"512x512",type:"image/png"}]};
-document.getElementById('ml').href=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:'application/json'}));
-
-// GAME LOGIC SAME AS BEFORE - 30 LEVELS SUBJECT WISE
-const TOTAL=30;let unlocked=Number(localStorage.getItem("studyUnlocked"))||1;let prog=JSON.parse(localStorage.getItem("levelProgress")||"{}");let curL=1,curSub="",curQ=0,score=0;
-function hideAll(){['home','levels','subjects','game','result'].forEach(i=>document.getElementById(i).classList.add('hidden'))}
-function showHome(){hideAll();document.getElementById('home').classList.remove('hidden')}
-function showLevels(){hideAll();document.getElementById('levels').classList.remove('hidden');let g=document.getElementById('levelGrid');g.innerHTML='';for(let i=1;i<=TOTAL;i++){let b=document.createElement('button');b.className='level';if(i<unlocked){b.classList.add('done');b.innerHTML=`✅<br>LEVEL ${i}`;b.onclick=()=>showSubjects(i);}else if(i==unlocked){b.classList.add('open');b.innerHTML=`⚡<br>LEVEL ${i}`;b.onclick=()=>showSubjects(i);}else{b.classList.add('locked');b.innerHTML=`🔒<br>LEVEL ${i}`;b.disabled=true;}g.appendChild(b);}}
-function showSubjects(l){curL=l;hideAll();document.getElementById('subjects').classList.remove('hidden');document.getElementById('subTitle').innerText=`LEVEL ${l} - Choose Subject`;let grid=document.getElementById('subjectGrid');grid.innerHTML='';let done=prog[l]||[];[{id:'physics',n:'⚡ Physics',c:'sub-phy'},{id:'chemistry',n:'🧪 Chemistry',c:'sub-chem'},{id:'maths',n:'📐 Maths',c:'sub-maths'}].forEach(s=>{let b=document.createElement('button');b.className='subjectCard '+s.c;if(done.includes(s.id))b.style.opacity=.6;b.innerHTML=`<span>${s.n}<br><small>20 Q ${done.includes(s.id)?'✅ Done':''}</small></span><span>▶️</span>`;b.onclick=()=>startSub(s.id);grid.appendChild(b);})}
-function gen(l,sub){let qs=[];for(let j=0;j<20;j++){qs.push({text:`[Q${(l-1)*60+j+1}] LEVEL ${l} ${sub} - Question ${j+1}?`,options:["Option A","Option B","Option C","Option D"],answer:j%4})}return qs;}
-function startSub(s){curSub=s;curQ=0;score=0;hideAll();document.getElementById('game').classList.remove('hidden');loadQ();}
-function loadQ(){let qs=gen(curL,curSub);let q=qs[curQ];document.getElementById('levelText').innerText=`LEVEL ${curL} ${curSub}`;document.getElementById('scoreText').innerText=`${score}/20`;document.getElementById('question').innerText=q.text;let d=document.getElementById('options');d.innerHTML='';q.options.forEach((o,i)=>{let b=document.createElement('button');b.className='option';b.innerText=String.fromCharCode(65+i)+". "+o;b.onclick=()=>{document.querySelectorAll('.option')[q.answer].style.background='#baf3ce';if(i!=q.answer)b.style.background='#ffc4c4';else score++;document.getElementById('nextBtn').classList.remove('hidden')};d.appendChild(b);});document.getElementById('progressBar').style.width=curQ/20*100+'%';document.getElementById('nextBtn').classList.add('hidden')}
-function nextQuestion(){curQ++;if(curQ>=20){if(!prog[curL])prog[curL]=[];if(!prog
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#1026c
