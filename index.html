@@ -3,22 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ===== GOOGLE SEARCH SEO ADDED BY AMIT ===== -->
 <title>Amit Maurya Study Quiz Pro Game - 15 Levels Physics Chemistry Maths Quiz</title>
 <meta name="description" content="Play Amit Maurya Study Quiz Pro Game - Free 15 Levels Study Game with 900+ Questions. Physics, Chemistry, Maths Quiz. Learn Play Improve. Best Study Game by Amit Maurya from Lucknow.">
 <meta name="keywords" content="Amit Maurya Study Quiz, Study Quiz Pro, Amit Maurya Game, Study Game, Physics Chemistry Maths Quiz, Lucknow Study Game, amitmaurya102022">
 <meta name="author" content="Amit Maurya">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://amitmaurya102022-web.github.io/Study-quiz-game/">
-
-<!-- Open Graph for WhatsApp / Google Preview -->
 <meta property="og:title" content="Amit Maurya Study Quiz Pro Game">
 <meta property="og:description" content="900+ Questions | 15 Levels | Physics Chemistry Maths | Play Now - Study Quiz Pro by Amit Maurya">
 <meta property="og:url" content="https://amitmaurya102022-web.github.io/Study-quiz-game/">
 <meta property="og:type" content="website">
-
-<!-- Google Schema for Game -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -32,564 +26,105 @@
   "isAccessibleForFree": true
 }
 </script>
-<!-- ===== END SEO ===== -->
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-body{
-  font-family:Arial,sans-serif;
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 20% 20%,rgba(0,220,255,.35),transparent 25%),
-    radial-gradient(circle at 80% 30%,rgba(170,0,255,.35),transparent 25%),
-    linear-gradient(135deg,#164be8,#6b16d9);
-  color:#222;
-}
-body:before{
-  content:"📚 🎮 ⚡ 🧪 📐 🚀 📚 🎮 ⚡";
-  position:fixed;
-  inset:0;
-  font-size:45px;
-  line-height:130px;
-  word-spacing:30px;
-  opacity:.10;
-  pointer-events:none;
-  overflow:hidden;
-}
-.app{
-  position:relative;
-  z-index:2;
-  max-width:700px;
-  margin:auto;
-  padding:18px;
-}
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:white;
-  margin-bottom:20px;
-}
-.logo{
-  font-size:25px;
-  font-weight:bold;
-}
-.homeBtn{
-  border:0;
-  border-radius:25px;
-  padding:12px 18px;
-  background:rgba(255,255,255,.2);
-  color:white;
-  font-size:16px;
-}
-.card{
-  background:rgba(255,255,255,.95);
-  border-radius:30px;
-  padding:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.25);
-}
-.center{
-  text-align:center;
-}
-.hero{
-  min-height:650px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
-.graduation{
-  font-size:90px;
-}
-.title{
-  color:#4d24a8;
-  font-size:48px;
-  font-weight:bold;
-  margin:15px 0;
-}
-.subtitle{
-  font-size:23px;
-  margin-bottom:35px;
-}
-.bigEmoji{
-  font-size:80px;
-  margin:20px;
-}
-.mainBtn{
-  width:100%;
-  padding:20px;
-  border:0;
-  border-radius:25px;
-  background:linear-gradient(135deg,#396be8,#596eea);
-  color:white;
-  font-size:24px;
-  font-weight:bold;
-  margin-top:18px;
-  box-shadow:0 8px 18px rgba(0,0,0,.2);
-}
-.mainBtn:active{
-  transform:scale(.97);
-}
-.levelTitle{
-  text-align:center;
-  color:#4d24a8;
-  font-size:38px;
-  margin-bottom:25px;
-}
-.levelGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-.level{
-  min-height:150px;
-  border:0;
-  border-radius:25px;
-  font-size:22px;
-  font-weight:bold;
-  padding:15px;
-}
-.level.open{
-  background:linear-gradient(135deg,#625fe8,#7442c7);
-  color:white;
-}
-.level.locked{
-  background:#c8c8c8;
-  color:#666;
-}
-.level.done{
-  background:linear-gradient(135deg,#16b85a,#0c8d42);
-  color:white;
-}
-.status{
-  text-align:center;
-  margin-bottom:18px;
-  font-weight:bold;
-  color:#555;
-}
-.subjectTabs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-bottom:18px;
-}
-.tab{
-  border:0;
-  border-radius:15px;
-  padding:12px 5px;
-  font-weight:bold;
-  font-size:15px;
-}
-.tab.physics{
-  background:#e8ddff;
-  color:#6425b8;
-}
-.tab.chemistry{
-  background:#dff8e8;
-  color:#138044;
-}
-.tab.maths{
-  background:#ffe6d8;
-  color:#bd4b15;
-}
-.questionNo{
-  color:#555;
-  font-weight:bold;
-  margin-bottom:10px;
-}
-.subjectName{
-  font-size:22px;
-  font-weight:bold;
-  margin-bottom:18px;
-}
-.question{
-  font-size:23px;
-  font-weight:bold;
-  line-height:1.4;
-  margin-bottom:25px;
-}
-.option{
-  width:100%;
-  text-align:left;
-  padding:17px;
-  margin:8px 0;
-  border:2px solid #ddd;
-  border-radius:17px;
-  background:white;
-  font-size:18px;
-}
-.option.correct{
-  background:#baf3ce;
-  border-color:#16a34a;
-}
-.option.wrong{
-  background:#ffc4c4;
-  border-color:#dc2626;
-}
-.nextBtn{
-  width:100%;
-  padding:17px;
-  margin-top:18px;
-  border:0;
-  border-radius:18px;
-  background:#4d5fe8;
-  color:white;
-  font-size:19px;
-  font-weight:bold;
-}
-.progressBox{
-  margin-bottom:20px;
-}
-.progressText{
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold;
-  margin-bottom:7px;
-}
-.progress{
-  width:100%;
-  height:13px;
-  background:#ddd;
-  border-radius:20px;
-  overflow:hidden;
-}
-.progressBar{
-  height:100%;
-  background:linear-gradient(90deg,#2471ed,#7939dc);
-  width:0%;
-}
-.result{
-  text-align:center;
-}
-.score{
-  font-size:55px;
-  font-weight:bold;
-  color:#5424a8;
-  margin:20px;
-}
-.smallBtn{
-  border:0;
-  border-radius:18px;
-  padding:14px 20px;
-  margin:7px;
-  background:#596eea;
-  color:white;
-  font-weight:bold;
-}
-.hidden{
-  display:none!important;
-}
-@media(max-width:500px){
- .title{
-    font-size:40px;
-  }
- .levelGrid{
-    gap:10px;
-  }
- .level{
-    min-height:125px;
-    font-size:17px;
-  }
- .question{
-    font-size:20px;
-  }
- .card{
-    padding:18px;
-  }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:radial-gradient(circle at 20% 20%,rgba(0,220,255,.35),transparent 25%),radial-gradient(circle at 80% 30%,rgba(170,0,255,.35),transparent 25%),linear-gradient(135deg,#164be8,#6b16d9);color:#222}
+body:before{content:"📚 🎮 ⚡ 🧪 📐 🚀 📚 🎮 ⚡";position:fixed;inset:0;font-size:45px;line-height:130px;word-spacing:30px;opacity:.10;pointer-events:none;overflow:hidden}
+.app{position:relative;z-index:2;max-width:700px;margin:auto;padding:18px}
+.header{display:flex;justify-content:space-between;align-items:center;color:white;margin-bottom:20px}
+.logo{font-size:20px;font-weight:bold}
+.homeBtn{border:0;border-radius:25px;padding:12px 18px;background:rgba(255,255,255,.2);color:white;font-size:16px}
+.card{background:rgba(255,255,255,.95);border-radius:30px;padding:25px;box-shadow:0 15px 40px rgba(0,0,0,.25)}
+.hero{min-height:650px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.graduation{font-size:90px}
+.title{color:#4d24a8;font-size:36px;font-weight:bold;margin:15px 0;text-align:center}
+.subtitle{font-size:20px;margin-bottom:35px;text-align:center}
+.bigEmoji{font-size:80px;margin:20px}
+.mainBtn{width:100%;padding:20px;border:0;border-radius:25px;background:linear-gradient(135deg,#396be8,#596eea);color:white;font-size:22px;font-weight:bold;margin-top:18px;box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.levelTitle{text-align:center;color:#4d24a8;font-size:34px;margin-bottom:25px}
+.levelGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.level{min-height:150px;border:0;border-radius:25px;font-size:20px;font-weight:bold;padding:15px}
+.level.open{background:linear-gradient(135deg,#625fe8,#7442c7);color:white}
+.level.locked{background:#c8c8c8;color:#666}
+.level.done{background:linear-gradient(135deg,#16b85a,#0c8d42);color:white}
+.status{text-align:center;margin-bottom:18px;font-weight:bold;color:#555}
+.subjectTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.tab{border:0;border-radius:15px;padding:12px 5px;font-weight:bold;font-size:15px}
+.tab.physics{background:#e8ddff;color:#6425b8}
+.tab.chemistry{background:#dff8e8;color:#138044}
+.tab.maths{background:#ffe6d8;color:#bd4b15}
+.questionNo{color:#555;font-weight:bold;margin-bottom:10px}
+.subjectName{font-size:22px;font-weight:bold;margin-bottom:18px}
+.question{font-size:21px;font-weight:bold;line-height:1.4;margin-bottom:25px}
+.option{width:100%;text-align:left;padding:17px;margin:8px 0;border:2px solid #ddd;border-radius:17px;background:white;font-size:18px}
+.option.correct{background:#baf3ce;border-color:#16a34a}
+.option.wrong{background:#ffc4c4;border-color:#dc2626}
+.nextBtn{width:100%;padding:17px;margin-top:18px;border:0;border-radius:18px;background:#4d5fe8;color:white;font-size:19px;font-weight:bold}
+.progressBox{margin-bottom:20px}
+.progressText{display:flex;justify-content:space-between;font-weight:bold;margin-bottom:7px}
+.progress{width:100%;height:13px;background:#ddd;border-radius:20px;overflow:hidden}
+.progressBar{height:100%;background:linear-gradient(90deg,#2471ed,#7939dc);width:0%}
+.result{text-align:center}
+.score{font-size:55px;font-weight:bold;color:#5424a8;margin:20px}
+.smallBtn{border:0;border-radius:18px;padding:14px 20px;margin:7px;background:#596eea;color:white;font-weight:bold}
+.hidden{display:none!important}
+@media(max-width:500px){.title{font-size:32px}.levelGrid{gap:10px}.level{min-height:125px;font-size:16px}.question{font-size:18px}.card{padding:18px}.logo{font-size:16px}}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="header">
-    <div class="logo">📚 Study Quiz Pro</div>
-    <button class="homeBtn" onclick="showHome()">← Home</button>
-  </div>
-  <section id="home" class="card hero">
-    <div class="graduation">🎓</div>
-    <div class="title">Study Quiz Pro</div>
-    <div class="subtitle">
-      Learn • Play • Improve 🚀
-    </div>
-    <div class="bigEmoji">
-      📚 🎮
-    </div>
-    <button class="mainBtn" onclick="showLevels()">
-      ▶️ PLAY GAME
-    </button>
-    <button class="mainBtn" onclick="showHighScore()">
-      🏆 HIGH SCORE
-    </button>
-  </section>
-  <section id="levels" class="card hidden">
-    <h1 class="levelTitle">🎮 SELECT LEVEL</h1>
-    <div class="status" id="unlockText">
-      Level 1 is unlocked
-    </div>
-    <div id="levelGrid" class="levelGrid"></div>
-    <button class="mainBtn" onclick="showHome()">
-      ← HOME
-    </button>
-  </section>
-  <section id="game" class="card hidden">
-    <div class="progressBox">
-      <div class="progressText">
-        <span id="levelText">Level 1</span>
-        <span id="scoreText">Score: 0</span>
-      </div>
-      <div class="progress">
-        <div id="progressBar" class="progressBar"></div>
-      </div>
-    </div>
-    <div class="subjectTabs">
-      <button class="tab physics">⚡ Physics</button>
-      <button class="tab chemistry">🧪 Chemistry</button>
-      <button class="tab maths">📐 Maths</button>
-    </div>
-    <div id="questionNo" class="questionNo"></div>
-    <div id="subjectName" class="subjectName"></div>
-    <div id="question" class="question"></div>
-    <div id="options"></div>
-    <button id="nextBtn" class="nextBtn hidden" onclick="nextQuestion()">
-      NEXT QUESTION →
-    </button>
-  </section>
-  <section id="result" class="card result hidden">
-    <h1>🎉 LEVEL COMPLETE!</h1>
-    <div class="score" id="finalScore">0/60</div>
-    <p id="resultMessage"></p>
-    <button class="mainBtn" onclick="showLevels()">
-      🎮 SELECT LEVEL
-    </button>
-    <button class="smallBtn" onclick="showHome()">
-      🏠 HOME
-    </button>
-  </section>
-  <section id="highScore" class="card result hidden">
-    <h1>🏆 HIGH SCORE</h1>
-    <div class="score" id="highScoreValue">0</div>
-    <p>Highest score saved on this device.</p>
-    <button class="mainBtn" onclick="showHome()">
-      🏠 HOME
-    </button>
-  </section>
+<div class="header">
+<div class="logo">📚 Amit Maurya Quiz Pro</div>
+<button class="homeBtn" onclick="showHome()">← Home</button>
+</div>
+<section id="home" class="card hero">
+<div class="graduation">🎓</div>
+<div class="title">Amit Maurya<br>Study Quiz Pro</div>
+<div class="subtitle">Learn • Play • Improve 🚀<br><b>By Amit Maurya</b></div>
+<div class="bigEmoji">📚 🎮</div>
+<button class="mainBtn" onclick="showLevels()">▶️ PLAY GAME</button>
+<button class="mainBtn" onclick="showHighScore()">🏆 HIGH SCORE</button>
+</section>
+<section id="levels" class="card hidden">
+<h1 class="levelTitle">🎮 SELECT LEVEL</h1>
+<div class="status" id="unlockText">Level 1 is unlocked</div>
+<div id="levelGrid" class="levelGrid"></div>
+<button class="mainBtn" onclick="showHome()">← HOME</button>
+</section>
+<section id="game" class="card hidden">
+<div class="progressBox">
+<div class="progressText"><span id="levelText">Level 1</span><span id="scoreText">Score: 0</span></div>
+<div class="progress"><div id="progressBar" class="progressBar"></div></div>
+</div>
+<div class="subjectTabs"><button class="tab physics">⚡ Physics</button><button class="tab chemistry">🧪 Chemistry</button><button class="tab maths">📐 Maths</button></div>
+<div id="questionNo" class="questionNo"></div>
+<div id="subjectName" class="subjectName"></div>
+<div id="question" class="question"></div>
+<div id="options"></div>
+<button id="nextBtn" class="nextBtn hidden" onclick="nextQuestion()">NEXT QUESTION →</button>
+</section>
+<section id="result" class="card result hidden">
+<h1>🎉 LEVEL COMPLETE!</h1>
+<div class="score" id="finalScore">0/60</div>
+<p id="resultMessage"></p>
+<button class="mainBtn" onclick="showLevels()">🎮 SELECT LEVEL</button>
+<button class="smallBtn" onclick="showHome()">🏠 HOME</button>
+</section>
+<section id="highScore" class="card result hidden">
+<h1>🏆 HIGH SCORE</h1>
+<div class="score" id="highScoreValue">0</div>
+<p>Highest score saved on this device.</p>
+<button class="mainBtn" onclick="showHome()">🏠 HOME</button>
+</section>
 </div>
 <script>
-const TOTAL_LEVELS = 15;
-const QUESTIONS_PER_SUBJECT = 20;
-const TOTAL_QUESTIONS = 60;
-let unlockedLevel =
-  Number(localStorage.getItem("studyUnlocked")) || 1;
-let highScore =
-  Number(localStorage.getItem("studyHighScore")) || 0;
-let currentLevel = 1;
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
-function hideAll(){
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("levels").classList.add("hidden");
-  document.getElementById("game").classList.add("hidden");
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("highScore").classList.add("hidden");
-}
-function showHome(){
-  hideAll();
-  document.getElementById("home").classList.remove("hidden");
-}
-function showLevels(){
-  hideAll();
-  document.getElementById("levels").classList.remove("hidden");
-  renderLevels();
-}
-function showHighScore(){
-  hideAll();
-  document.getElementById("highScore").classList.remove("hidden");
-  document.getElementById("highScoreValue").innerText = highScore;
-}
-function renderLevels(){
-  const grid = document.getElementById("levelGrid");
-  grid.innerHTML = "";
-  for(let i=1;i<=TOTAL_LEVELS;i++){
-    const btn = document.createElement("button");
-    btn.className = "level";
-    if(i < unlockedLevel){
-      btn.classList.add("done");
-      btn.innerHTML = "✅<br>LEVEL " + i;
-      btn.onclick = () => startLevel(i);
-    }else if(i === unlockedLevel){
-      btn.classList.add("open");
-      btn.innerHTML = "⚡<br>LEVEL " + i;
-      btn.onclick = () => startLevel(i);
-    }else{
-      btn.classList.add("locked");
-      btn.innerHTML = "🔒<br>LEVEL " + i;
-      btn.disabled = true;
-    }
-    grid.appendChild(btn);
-  }
-  document.getElementById("unlockText").innerText =
-    "🔓 Level " + unlockedLevel + " unlocked";
-}
-function generateQuestions(level){
-  let questions = [];
-  const physics = [
-    ["If distance between two charges is doubled, force becomes:",["2 times","4 times","1/2 times","1/4 times"],3],
-    ["SI unit of electric charge is:",["Volt","Coulomb","Newton","Joule"],1],
-    ["SI unit of electric field is:",["N/C","C/N","J/C","N/m"],0],
-    ["Coulomb's law is proportional to:",["r","r²","1/r²","1/r"],2],
-    ["Electric potential is measured in:",["Volt","Ampere","Ohm","Tesla"],0],
-    ["SI unit of capacitance is:",["Ohm","Farad","Henry","Tesla"],1],
-    ["A positive charge creates electric field:",["towards charge","away from charge","circular","zero"],1],
-    ["Electric field inside an ideal conductor in electrostatic equilibrium is:",["maximum","zero","infinite","negative"],1],
-    ["Work done in moving charge along equipotential surface is:",["maximum","zero","infinite","negative"],1],
-    ["SI unit of magnetic field is:",["Tesla","Volt","Newton","Coulomb"],0],
-    ["Lens power is measured in:",["metre","dioptre","joule","tesla"],1],
-    ["Focal length of a convex lens is:",["positive","negative","zero","infinite"],0],
-    ["A concave lens is:",["converging","diverging","plane","reflecting"],1],
-    ["Speed of light in vacuum is approximately:",["3×10⁸ m/s","3×10⁶ m/s","3×10⁵ m/s","3×10⁷ m/s"],0],
-    ["Frequency is measured in:",["Hz","N","J","W"],0],
-    ["Wavelength is generally represented by:",["λ","μ","ρ","σ"],0],
-    ["Ohm's law is:",["V=IR","P=VI²","I=VR","R=VI"],0],
-    ["Resistance is measured in:",["Ohm","Volt","Ampere","Watt"],0],
-    ["Electrical power is:",["VI","V/I","I/V","IR"],0],
-    ["A transformer works on:",["electromagnetic induction","photoelectric effect","reflection","diffusion"],0]
-  ];
-  physics.forEach((q,i)=>{
-    questions.push({subject:"⚡ Physics",text:"Level "+level+" — "+q[0],options:q[1],answer:q[2]});
-  });
-  const chemistry = [
-    ["The atomic number represents number of:",["neutrons","protons","nucleons","molecules"],1],
-    ["A ligand is generally an:",["electron pair donor","electron pair acceptor","proton only","neutron"],0],
-    ["NH3 is a:",["monodentate ligand","bidentate ligand","tridentate ligand","hexadentate ligand"],0],
-    ["Ethane formula is:",["C2H6","C2H4","C2H2","CH4"],0],
-    ["Benzene molecular formula is:",["C6H6","C6H12","C5H6","C7H8"],0],
-    ["pH of neutral water at 25°C is approximately:",["0","7","14","10"],1],
-    ["Oxidation means:",["loss of electrons","gain of electrons","loss of protons","gain of neutrons"],0],
-    ["Reduction means:",["loss of electrons","gain of electrons","loss of neutrons","gain of atoms"],1],
-    ["A Lewis acid is an:",["electron pair donor","electron pair acceptor","proton donor only","electron"],1],
-    ["A Lewis base is an:",["electron pair donor","electron pair acceptor","neutron donor","proton only"],0],
-    ["Coordination number means number of:",["atoms in nucleus","donor atoms directly attached","protons","neutrons"],1],
-    ["The oxidation state of oxygen usually is:",["+2","-2","+1","0"],1],
-    ["NaCl is mainly a:",["covalent compound","ionic compound","metallic compound","coordinate compound"],1],
-    ["Molarity is expressed as:",["mol/L","g/L only","mol/kg","kg/mol"],0],
-    ["Avogadro number is approximately:",["6.022×10²³","3×10⁸","9.8","1.6×10⁻¹⁹"],0],
-    ["Electron charge is:",["positive","negative","zero","variable"],1],
-    ["A catalyst changes:",["rate of reaction","equilibrium constant always","atomic number","mass"],0],
-    ["The functional group of alcohol is:",["-OH","-COOH","-CHO","-NH2"],0],
-    ["The functional group of carboxylic acid is:",["-OH","-COOH","-NH2","-Cl"],1],
-    ["CH3OH is:",["methanol","ethanol","methanal","methanoic acid"],0]
-  ];
-  chemistry.forEach((q,i)=>{
-    questions.push({subject:"🧪 Chemistry",text:"Level "+level+" — "+q[0],options:q[1],answer:q[2]});
-  });
-  const maths = [
-    ["Derivative of x² is:",["x","2x","x²","2"],1],
-    ["Derivative of sin x is:",["cos x","-cos x","sin x","-sin x"],0],
-    ["Derivative of cos x is:",["sin x","-sin x","cos x","-cos x"],1],
-    ["Integral of 1/x dx is:",["x²/2","ln|x| + C","1/x","x+C"],1],
-    ["Integral of cos x dx is:",["sin x+C","-sin x+C","cos x+C","tan x+C"],0],
-    ["Integral of sin x dx is:",["cos x+C","-cos x+C","sin x+C","tan x+C"],1],
-    ["sin²x + cos²x equals:",["0","1","2","x"],1],
-    ["tan x is equal to:",["sin x/cos x","cos x/sin x","1/sin x","1/cos x"],0],
-    ["log(ab) is:",["log a + log b","log a - log b","log a/log b","log(a+b)"],0],
-    ["Matrix with equal rows and columns is:",["square matrix","row matrix","column matrix","zero matrix"],0],
-    ["Determinant of identity matrix is:",["0","1","2","-1"],1],
-    ["If A is 2×3, number of elements is:",["5","6","8","9"],1],
-    ["d/dx(eˣ) is:",["eˣ","xeˣ","1","0"],0],
-    ["d/dx(ln x) is:",["x","1/x","ln x","eˣ"],1],
-    ["sin⁻¹(1) is:",["0","π/2","π","2π"],1],
-    ["cos⁻¹(1) is:",["0","π/2","π","2π"],0],
-    ["tan⁻¹(1) is:",["0","π/4","π/2","π"],1],
-    ["Probability of a certain event is:",["0","1","1/2","-1"],1],
-    ["Probability of an impossible event is:",["0","1","-1","2"],0],
-    ["The degree of a constant polynomial is:",["0","1","2","undefined"],0]
-  ];
-  maths.forEach((q,i)=>{
-    questions.push({subject:"📐 Maths",text:"Level "+level+" — "+q[0],options:q[1],answer:q[2]});
-  });
-  return questions;
-}
-function startLevel(level){
-  currentLevel = level;
-  currentQuestion = 0;
-  score = 0;
-  answered = false;
-  hideAll();
-  document.getElementById("game").classList.remove("hidden");
-  loadQuestion();
-}
-function loadQuestion(){
-  const questions = generateQuestions(currentLevel);
-  const q = questions[currentQuestion];
-  answered = false;
-  document.getElementById("levelText").innerText = "LEVEL " + currentLevel;
-  document.getElementById("scoreText").innerText = "Score: " + score;
-  document.getElementById("questionNo").innerText = "Question " + (currentQuestion+1) + " / 60";
-  document.getElementById("subjectName").innerText = q.subject;
-  document.getElementById("question").innerText = q.text;
-  const options = document.getElementById("options");
-  options.innerHTML = "";
-  q.options.forEach((option,index)=>{
-    const btn = document.createElement("button");
-    btn.className = "option";
-    btn.innerText = String.fromCharCode(65+index) + ". " + option;
-    btn.onclick = () => checkAnswer(index,btn);
-    options.appendChild(btn);
-  });
-  document.getElementById("nextBtn").classList.add("hidden");
-  const percent = (currentQuestion / TOTAL_QUESTIONS) * 100;
-  document.getElementById("progressBar").style.width = percent + "%";
-}
-function checkAnswer(selected,button){
-  if(answered) return;
-  answered = true;
-  const questions = generateQuestions(currentLevel);
-  const q = questions[currentQuestion];
-  const allButtons = document.querySelectorAll(".option");
-  if(selected === q.answer){
-    button.classList.add("correct");
-    score++;
-  }else{
-    button.classList.add("wrong");
-    allButtons[q.answer].classList.add("correct");
-  }
-  document.getElementById("scoreText").innerText = "Score: " + score;
-  document.getElementById("nextBtn").classList.remove("hidden");
-}
-function nextQuestion(){
-  currentQuestion++;
-  if(currentQuestion >= TOTAL_QUESTIONS){
-    finishLevel();
-  }else{
-    loadQuestion();
-  }
-}
-function finishLevel(){
-  hideAll();
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("finalScore").innerText = score + " / 60";
-  if(score > highScore){
-    highScore = score;
-    localStorage.setItem("studyHighScore",highScore);
-  }
-  if(currentLevel === unlockedLevel && currentLevel < TOTAL_LEVELS){
-    unlockedLevel = currentLevel + 1;
-    localStorage.setItem("studyUnlocked",unlockedLevel);
-    document.getElementById("resultMessage").innerText = "🎉 Great! Level " + unlockedLevel + " is now unlocked!";
-  }
-  else if(currentLevel === TOTAL_LEVELS){
-    document.getElementById("resultMessage").innerText = "🏆 Congratulations! You completed all 15 levels!";
-  }
-  else{
-    document.getElementById("resultMessage").innerText = "Level completed! 🎯";
-  }
-}
-showHome();
-</script>
-</body>
-</html>
+const TOTAL_LEVELS=15;const TOTAL_QUESTIONS=60;
+let unlockedLevel=Number(localStorage.getItem("studyUnlocked"))||1;
+let highScore=Number(localStorage.getItem("studyHighScore"))||0;
+let currentLevel=1;let currentQuestion=0;let score=0;let answered=false;
+function hideAll(){document.getElementById("home").classList.add("hidden");document.getElementById("levels").classList.add("hidden");document.getElementById("game").classList.add("hidden");document.getElementById("result").classList.add("hidden");document.getElementById("highScore").classList.add("hidden")}
+function showHome(){hideAll();document.getElementById("home").classList.remove("hidden")}
+function showLevels(){hideAll();document.getElementById("levels").classList.remove("hidden");renderLevels()}
+function showHighScore(){hideAll();document.getElementById("highScore").classList.remove("hidden");document.getElementById("highScoreValue").innerText=highScore}
+function renderLevels(){const grid=document.getElementById("levelGrid");grid.innerHTML="";for(let i=1;i<=TOTAL_LEVELS;i++){const btn=document.createElement("button");btn.className="level";if(i<unlockedLevel){btn.classList.add("done");btn.innerHTML="✅<br>LEVEL "+i;btn.onclick=()=>startLevel(i)}else if(i===unlockedLevel){btn.classList.add("open");btn.innerHTML="⚡<br>LEVEL "+i;btn.onclick=()=>startLevel(i)}else{btn.classList.add("locked");btn.innerHTML="🔒<br>LEVEL "+i;btn.disabled=true}grid.appendChild(btn)}document.getElementById("unlockText").innerText="🔓 Level "+unlockedLevel+" unlocked"}
+function generateQuestions(level){let questions=[];const physics=[["If distance between two charges is doubled, force becomes:",["2 times","4 times","1/2 times","1/4 times"],3],["SI unit of electric charge is:",["Volt","Coulomb","Newton","Joule"],1],["SI unit of electric field is:",["N/C","C/N","J/C","N/m"],0],["Coulomb's law is proportional to:",["r","r²","1/r²","1/r"],2],["Electric potential is measured in:",["Volt","Ampere","Ohm","Tesla"],0],["SI unit of capacitance is:",["Ohm","Farad","Henry","Tesla"],1],["A positive charge creates electric field:",["towards charge","away from charge","circular","zero"],1],["Electric field inside an ideal conductor in electrostatic equilibrium is:",["maximum","zero","infinite","negative"],1],["Work done in moving charge along equipotential surface is:",["maximum","zero","infinite","negative"],1],["SI unit of magnetic field is:",["Tesla","Volt","Newton","Coulomb"],0],["Lens power is measured in:",["metre","dioptre","joule","tesla"],1],["Focal length of a convex lens is:",["positive","negative","zero","infinite"],0],["A concave lens is:",["converging","diverging","plane","reflecting"],1],["Speed of light in vacuum is approximately:",["3×10⁸ m/s","3×10⁶ m/s","3×10⁵ m/s","3×10⁷ m/s"],0],["Frequency is measured in:",["Hz","N","J","W"],0],["Wavelength is generally represented by:",["λ","μ","ρ","σ"],0],["Ohm's law is:",["V=IR","P=VI²","I=VR","R=VI"],0],["Resistance is measured in:",["Ohm","Volt","Ampere","Watt"],0],["Electrical power is:",["VI","V/I","I/V","IR"],0],["A transformer works on:",["electromagnetic induction","photoelectric effect","reflection","diffusion"],0]];physics.forEach((q)=>{questions.push({subject:"⚡ Physics",text:"Level "+level+" — "+q[0],options:q[1],answer:q[2]})});const chemistry=[["The atomic number represents number of:",["neutrons","protons","nucleons","molecules"],1],["A ligand is generally an:",["electron pair donor","electron pair acceptor","proton only","neutron"],0],["NH3 is a:",["monodentate ligand","bidentate ligand","tridentate ligand","hexadentate ligand"],0],["Ethane formula is:",["C2H6","C2H4","C2H2","CH4"],0],["Benzene molecular formula is:",["C6H6","C6H12","C5H6","C7H8"],0],["pH of neutral water at 25°C is approximately:",["0","7","14","10"],1],["Oxidation means:",["loss of electrons","gain of electrons","loss of protons","gain of neutrons"],0],["Reduction means:",["loss of electrons","gain of electrons","loss of neutrons","gain of atoms"],1],["A Lewis acid is an:",["electron pair donor","electron pair acceptor","proton donor only","electron"],1],["A Lewis base is an:",["electron pair donor","electron pair acceptor","neutron donor","proton only"],0],["Coordination number means number of:",["atoms in nucleus","donor atoms directly attached","protons","neutrons"],1],["The oxidation state of oxygen usually is:",["+2","-2","+1","0"],1],["NaCl is mainly a:",["covalent compound","ionic compound","metallic compound","coordinate compound"],1],["Molarity is expressed as:",["mol/L","g/L only","mol/kg","kg/mol"],0],["Avogadro number is approximately:",["6.022×10²³","3×10⁸","9.8","1.6×10⁻¹⁹"],0],["Electron charge is:",["positive","negative","zero","variable"],1],["A catalyst changes:",["rate of reaction","equilibrium constant always","atomic number","mass"],0],["The functional group of alcohol is:",["-OH","-COOH","-CHO","-NH2"],0],["The functional group of carboxylic acid is:",["-OH","-COOH","-NH2","-Cl"],1],["CH3OH is:",["methanol","ethanol","methanal","methanoic acid"],0]];chemistry.forEach((q)=>{questions.push({subject:"🧪 Chemistry",text:"Level "+level+" — "+q[0],options:q[1],answer:q[2]})});const maths=[["Derivative of x² is:",["x","2x","x²","2"],1],["Derivative of sin x is:",["cos x","-cos x","sin x","-sin x"],0],["Derivative of cos x is:",["sin x","-sin x","cos x","-cos x"],1],["Integral of 1/x dx is:",["x²/2","ln|x| +
