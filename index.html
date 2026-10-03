@@ -2,872 +2,410 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#4f46e5">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Study Quiz Pro</title>
 
-<link rel="icon" href="data:image/svg+xml,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-<rect width='100' height='100' rx='25' fill='%234f46e5'/>
-<text x='50' y='67' text-anchor='middle' font-size='55'>🎓</text>
-</svg>">
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
+  font-family:Arial,sans-serif;
   min-height:100vh;
-  background:
-  radial-gradient(circle at top,#6366f1 0%,transparent 40%),
-  linear-gradient(135deg,#111827,#312e81,#4c1d95);
   color:white;
-}
-
-/* ================= SPLASH SCREEN ================= */
-
-#splash{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
   background:
-  radial-gradient(circle at top,#6366f1,transparent 45%),
-  linear-gradient(135deg,#111827,#312e81,#4c1d95);
-  transition:.7s;
+    linear-gradient(rgba(20,30,70,.75),rgba(5,10,30,.9)),
+    url("https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80")
+    center/cover fixed;
 }
 
-#splash.hide{
-  opacity:0;
-  visibility:hidden;
-}
-
-.splashBox{
-  width:90%;
-  max-width:430px;
-  animation:zoom .9s ease;
-}
-
-.logo{
-  width:130px;
-  height:130px;
-  margin:auto;
-  border-radius:35px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:72px;
-  background:linear-gradient(135deg,#7c3aed,#4f46e5);
-  box-shadow:0 20px 50px #0007;
-  animation:float 2s infinite;
-}
-
-.splashBox h1{
-  margin-top:25px;
-  font-size:42px;
-}
-
-.tagline{
-  margin-top:10px;
-  font-size:19px;
-}
-
-.subjects{
-  margin-top:10px;
-  opacity:.75;
-}
-
-.loader{
-  width:220px;
-  height:7px;
-  margin:35px auto 12px;
-  border-radius:20px;
-  overflow:hidden;
-  background:#ffffff33;
-}
-
-.loaderBar{
-  height:100%;
-  width:40%;
-  background:white;
-  border-radius:20px;
-  animation:load 1.4s infinite;
-}
-
-.loadingText{
-  opacity:.65;
-  font-size:13px;
-}
-
-@keyframes load{
-  from{transform:translateX(-150%)}
-  to{transform:translateX(350%)}
-}
-
-@keyframes zoom{
-  from{opacity:0;transform:scale(.8)}
-  to{opacity:1;transform:scale(1)}
-}
-
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
-}
-
-/* ================= MAIN APP ================= */
-
-#app{
-  width:100%;
+.container{
+  width:94%;
   max-width:700px;
   margin:auto;
-  padding:25px 15px 40px;
+  padding:25px 0;
 }
+
+.screen{display:none}
+.active{display:block}
 
 .card{
-  background:#ffffff13;
-  border:1px solid #ffffff25;
-  backdrop-filter:blur(15px);
-  border-radius:28px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:22px;
   padding:25px;
-  box-shadow:0 20px 60px #0004;
-}
-
-.header{
-  text-align:center;
-}
-
-.headerLogo{
-  width:100px;
-  height:100px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:55px;
-  border-radius:28px;
-  background:linear-gradient(135deg,#7c3aed,#4f46e5);
+  margin-top:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.35);
 }
 
 h1{
-  font-size:40px;
-  margin-top:18px;
+  text-align:center;
+  font-size:38px;
+  margin-top:45px;
 }
 
 .subtitle{
-  margin-top:10px;
-  font-size:18px;
-  opacity:.8;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin:30px 0;
-}
-
-.stat{
-  padding:20px 8px;
-  border-radius:22px;
   text-align:center;
-  background:#11182755;
-}
-
-.stat strong{
-  display:block;
-  font-size:32px;
-}
-
-.stat span{
-  opacity:.75;
-  font-size:14px;
+  margin:12px 0 30px;
+  opacity:.9;
 }
 
 button{
   width:100%;
   border:0;
-  border-radius:20px;
-  padding:17px;
+  border-radius:14px;
+  padding:15px;
   margin-top:12px;
-  font-size:20px;
+  font-size:17px;
   font-weight:bold;
   cursor:pointer;
-  transition:.2s;
+  background:#ffffff;
+  color:#172554;
 }
 
-button:active{
-  transform:scale(.97);
-}
+button:hover{transform:scale(1.02)}
 
-.playBtn{
-  background:white;
-  color:#312e81;
-}
-
-.secondary{
-  background:#ffffff16;
+.back{
+  background:rgba(255,255,255,.18);
   color:white;
-  border:1px solid #ffffff35;
 }
 
-/* ================= LEVELS ================= */
-
-#levelsScreen,#quizScreen{
-  display:none;
-}
-
-.sectionTitle{
-  text-align:center;
-  font-size:30px;
-  margin-bottom:20px;
-}
-
-.levelGrid{
+.levels{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
+  margin-top:20px;
 }
 
-.levelBtn{
-  padding:18px 5px;
-  margin:0;
-  font-size:18px;
-  background:#ffffff15;
-  color:white;
-  border:1px solid #ffffff25;
-}
-
-.levelBtn.locked{
-  opacity:.35;
-}
-
-.levelBtn.open{
-  background:linear-gradient(135deg,#6366f1,#7c3aed);
-}
-
-.backBtn{
-  margin-bottom:15px;
-  background:#ffffff12;
+.level{
+  padding:20px 8px;
+  border-radius:15px;
+  background:#2563eb;
   color:white;
 }
 
-/* ================= QUIZ ================= */
-
-.progress{
-  height:8px;
-  background:#ffffff20;
-  border-radius:20px;
-  overflow:hidden;
-  margin:15px 0 25px;
+.locked{
+  background:#555;
+  opacity:.6;
 }
 
-.progressBar{
-  height:100%;
-  width:0;
-  background:white;
-  transition:.3s;
+.subjects{
+  display:grid;
+  gap:14px;
 }
 
 .subject{
-  display:inline-block;
-  padding:7px 13px;
-  border-radius:20px;
-  background:#ffffff18;
-  margin-bottom:15px;
+  padding:22px;
+  border-radius:18px;
+  font-size:20px;
+  font-weight:bold;
+  background:rgba(255,255,255,.15);
+  cursor:pointer;
 }
 
 .question{
-  font-size:24px;
+  font-size:22px;
   line-height:1.4;
-  margin-bottom:20px;
+  margin:20px 0;
 }
 
 .option{
-  background:#ffffff12;
+  background:rgba(255,255,255,.12);
   color:white;
-  border:1px solid #ffffff25;
+  border:1px solid rgba(255,255,255,.25);
   text-align:left;
-  font-size:17px;
-  margin-top:10px;
 }
 
-.option.correct{
-  background:#15803d;
+.progress{
+  height:10px;
+  background:rgba(255,255,255,.2);
+  border-radius:10px;
+  overflow:hidden;
+  margin:15px 0;
 }
 
-.option.wrong{
-  background:#b91c1c;
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#22c55e;
 }
 
-.result{
+.score{
   text-align:center;
-  padding:20px;
+  font-size:25px;
+  margin:20px;
 }
 
-.result h2{
-  font-size:35px;
-  margin-bottom:15px;
+.small{
+  text-align:center;
+  opacity:.8;
+  margin-top:15px;
 }
 
-@media(max-width:500px){
-  h1{font-size:34px}
-  .splashBox h1{font-size:36px}
-  .question{font-size:21px}
-  .stats{gap:8px}
-  .stat strong{font-size:27px}
-  .levelGrid{grid-template-columns:repeat(3,1fr)}
-}
+.correct{background:#16a34a!important}
+.wrong{background:#dc2626!important}
 </style>
 </head>
 
 <body>
 
-<!-- ================= PROFESSIONAL SPLASH ================= -->
+<div class="container">
 
-<div id="splash">
-  <div class="splashBox">
+<!-- HOME -->
+<div id="home" class="screen active">
+  <h1>📚 Study Quiz Pro</h1>
+  <p class="subtitle">Physics • Chemistry • Mathematics</p>
 
-    <div class="logo">🎓</div>
-
-    <h1>Study Quiz Pro</h1>
-
-    <p class="tagline">Learn • Play • Improve</p>
-
-    <p class="subjects">
-      Physics • Chemistry • Mathematics
+  <div class="card">
+    <p style="text-align:center;font-size:18px">
+      🎯 Complete all three subjects to unlock the next level.
     </p>
 
-    <div class="loader">
-      <div class="loaderBar"></div>
-    </div>
-
-    <p class="loadingText">Loading Game...</p>
-
+    <button onclick="showLevels()">▶ Play Game</button>
   </div>
 </div>
 
-
-<!-- ================= HOME ================= -->
-
-<div id="app">
-
-  <div id="homeScreen" class="card">
-
-    <div class="header">
-
-      <div class="headerLogo">🎓</div>
-
-      <h1>Study Quiz Pro</h1>
-
-      <p class="subtitle">
-        Physics • Chemistry • Mathematics
-      </p>
-
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <strong id="currentLevel">1</strong>
-        <span>Level</span>
-      </div>
-
-      <div class="stat">
-        <strong id="highScore">0</strong>
-        <span>High Score</span>
-      </div>
-
-      <div class="stat">
-        <strong>1800</strong>
-        <span>Questions</span>
-      </div>
-
-    </div>
-
-    <button class="playBtn" onclick="showLevels()">
-      ▶ PLAY GAME
-    </button>
-
-    <button class="secondary" onclick="downloadGame()">
-      📥 DOWNLOAD GAME
-    </button>
-
-    <button class="secondary" onclick="resetProgress()">
-      🔄 RESET PROGRESS
-    </button>
-
-    <p style="text-align:center;margin-top:25px;opacity:.65">
-      30 Levels × 60 Questions = 1800 Questions
-    </p>
-
+<!-- LEVELS -->
+<div id="levelsScreen" class="screen">
+  <div class="card">
+    <h2>🏆 Select Level</h2>
+    <div id="levels" class="levels"></div>
+    <button class="back" onclick="goHome()">← Back</button>
   </div>
-
-
-  <!-- ================= LEVEL SCREEN ================= -->
-
-  <div id="levelsScreen" class="card">
-
-    <button class="backBtn" onclick="goHome()">← BACK</button>
-
-    <h2 class="sectionTitle">🎮 SELECT LEVEL</h2>
-
-    <div id="levelGrid" class="levelGrid"></div>
-
-  </div>
-
-
-  <!-- ================= QUIZ SCREEN ================= -->
-
-  <div id="quizScreen" class="card">
-
-    <button class="backBtn" onclick="showLevels()">
-      ← LEVELS
-    </button>
-
-    <div id="quizContent"></div>
-
-  </div>
-
 </div>
 
-
-<script>
-
-/* ================= SPLASH ================= */
-
-window.addEventListener("load",function(){
-
-  setTimeout(function(){
-
-    const splash=document.getElementById("splash");
-
-    splash.classList.add("hide");
-
-    setTimeout(function(){
-      splash.remove();
-    },700);
-
-  },1800);
-
-});
-
-
-/* ================= QUESTION BANK ================= */
-
-const physicsQuestions=[
-["What is the SI unit of force?","Newton","Joule","Watt","Pascal"],
-["What is the SI unit of electric charge?","Coulomb","Volt","Ohm","Tesla"],
-["What is the formula of electric field?","F/q","q/F","Fq","q²/F"],
-["What is the SI unit of electric potential?","Volt","Ampere","Ohm","Coulomb"],
-["What is Coulomb's law?","F = kq₁q₂/r²","F = kq/r","F = ma","V = IR"],
-["What is the SI unit of resistance?","Ohm","Volt","Ampere","Watt"],
-["What is the SI unit of power?","Watt","Joule","Newton","Volt"],
-["What is the speed of light in vacuum?","3 × 10⁸ m/s","3 × 10⁶ m/s","3 × 10⁵ m/s","3 × 10¹⁰ m/s"],
-["What is frequency measured in?","Hertz","Newton","Joule","Tesla"],
-["What is the lens formula?","1/f = 1/v - 1/u","f=u+v","f=uv","1/f=u-v"],
-["What is Ohm's law?","V = IR","V = I/R","V = R/I","V = IR²"],
-["What is the SI unit of magnetic field?","Tesla","Weber","Henry","Volt"],
-["What is the unit of wavelength?","metre","hertz","second","newton"],
-["What is acceleration due to gravity approximately?","9.8 m/s²","98 m/s²","0.98 m/s²","9.8 m/s"],
-["What is kinetic energy?","½mv²","mgh","mv","ma"],
-["What is potential energy near Earth?","mgh","½mv²","mv²","mg"],
-["What is the SI unit of energy?","Joule","Watt","Newton","Pascal"],
-["What is the relation between frequency and time period?","f = 1/T","f = T","f = T²","f = 2T"],
-["What does AC stand for?","Alternating Current","Active Current","Average Current","Applied Current"],
-["What does DC stand for?","Direct Current","Double Current","Digital Current","Dynamic Current"]
-];
-
-const chemistryQuestions=[
-["What is the atomic number of hydrogen?","1","2","8","6"],
-["What is the chemical formula of water?","H₂O","CO₂","O₂","H₂"],
-["What is the pH of neutral water at 25°C?","7","1","14","5"],
-["What is the SI unit of amount of substance?","Mole","Gram","Litre","Molar"],
-["What is a ligand?","Species donating electron pair","Proton donor","Electron acceptor only","Neutron donor"],
-["NH₃ is what type of ligand?","Monodentate","Bidentate","Tridentate","Tetradentate"],
-["en is what type of ligand?","Bidentate","Monodentate","Tridentate","None"],
-["What is coordination number?","Number of donor atoms attached to central metal","Atomic number","Mass number","Oxidation number"],
-["What is oxidation?","Loss of electrons","Gain of electrons","Gain of protons","Loss of neutrons"],
-["What is reduction?","Gain of electrons","Loss of electrons","Loss of protons","Gain of neutrons"],
-["What is the formula of sodium chloride?","NaCl","Na₂Cl","NaCl₂","Na₂Cl₂"],
-["What is Avogadro number?","6.022 × 10²³","6.022 × 10²²","3 × 10⁸","9.8"],
-["What is an electrolyte?","Substance producing ions in solution","Neutral gas","Metal only","Solid only"],
-["What is electrochemistry?","Study of chemical and electrical energy relationship","Study of sound","Study of light","Study of gravity"],
-["What is the oxidation state of oxygen usually?","-2","+2","0","+1"],
-["What is a catalyst?","Substance changing reaction rate","Reactant consumed completely","Product","Solvent only"],
-["What is a chelating ligand?","Ligand forming ring with metal","Ligand with no donor atom","An ion only","A solvent"],
-["What is the formula of glucose?","C₆H₁₂O₆","C₆H₆","CH₄","C₂H₅OH"],
-["What is the SI unit of molarity?","mol/L","kg/L","g/L","mol/kg"],
-["What is Werner theory related to?","Coordination compounds","Organic polymers","Thermodynamics","Electrolysis only"]
-];
-
-const mathsQuestions=[
-["What is derivative of x²?","2x","x","x²","2"],
-["What is integral of x dx?","x²/2 + C","x + C","2x + C","x³ + C"],
-["What is sin²x + cos²x?","1","0","2","x"],
-["What is tan x?","sin x/cos x","cos x/sin x","sin x cos x","1/sin x"],
-["What is derivative of sin x?","cos x","sin x","-cos x","tan x"],
-["What is derivative of cos x?","-sin x","sin x","cos x","tan x"],
-["What is derivative of tan x?","sec²x","tan²x","cos²x","sin²x"],
-["What is ∫1/x dx?","ln|x| + C","x + C","1/x² + C","log x²"],
-["What is sin 90°?","1","0","-1","1/2"],
-["What is cos 0°?","1","0","-1","1/2"],
-["What is tan 45°?","1","0","√3","1/√3"],
-["What is log(1)?","0","1","10","-1"],
-["What is determinant of a 2×2 matrix?","ad-bc","ab-cd","a+b+c+d","ac-bd"],
-["What is the slope of a horizontal line?","0","1","∞","-1"],
-["What is the distance formula?","√((x₂-x₁)²+(y₂-y₁)²)","x₂-x₁","y₂-y₁","x₁x₂"],
-["What is the quadratic formula?","(-b±√(b²-4ac))/2a","b/2a","a/b","√b/a"],
-["What is derivative of eˣ?","eˣ","xeˣ","1/eˣ","0"],
-["What is derivative of ln x?","1/x","x","ln x","eˣ"],
-["What is ∫cos x dx?","sin x + C","cos x + C","-sin x + C","tan x + C"],
-["What is ∫sin x dx?","-cos x + C","cos x + C","sin x + C","tan x + C"]
-];
-
-
-/* ================= CREATE 1800 QUESTIONS ================= */
-
-let bank=[];
-
-for(let level=1;level<=30;level++){
-
-  physicsQuestions.forEach((q,i)=>{
-    bank.push({
-      level:level,
-      subject:"Physics",
-      q:q[0],
-      options:q.slice(1),
-      answer:q[1]
-    });
-  });
-
-  chemistryQuestions.forEach((q,i)=>{
-    bank.push({
-      level:level,
-      subject:"Chemistry",
-      q:q[0],
-      options:q.slice(1),
-      answer:q[1]
-    });
-  });
-
-  mathsQuestions.forEach((q,i)=>{
-    bank.push({
-      level:level,
-      subject:"Mathematics",
-      q:q[0],
-      options:q.slice(1),
-      answer:q[1]
-    });
-  });
-
-}
-
-
-/* ================= GAME VARIABLES ================= */
-
-let unlocked=Number(localStorage.getItem("unlockedLevel"))||1;
-
-let highScore=Number(localStorage.getItem("highScore"))||0;
-
-let currentQuestions=[];
-
-let questionIndex=0;
-
-let score=0;
-
-let answered=false;
-
-
-/* ================= HOME ================= */
-
-function updateHome(){
-
-  document.getElementById("currentLevel").textContent=unlocked;
-
-  document.getElementById("highScore").textContent=highScore;
-
-}
-
-
-/* ================= LEVELS ================= */
-
-function showLevels(){
-
-  document.getElementById("homeScreen").style.display="none";
-
-  document.getElementById("quizScreen").style.display="none";
-
-  document.getElementById("levelsScreen").style.display="block";
-
-  const grid=document.getElementById("levelGrid");
-
-  grid.innerHTML="";
-
-  for(let i=1;i<=30;i++){
-
-    const btn=document.createElement("button");
-
-    btn.className="levelBtn "+(i<=unlocked?"open":"locked");
-
-    btn.textContent=i<=unlocked ? "LEVEL "+i : "🔒 "+i;
-
-    if(i<=unlocked){
-      btn.onclick=()=>startLevel(i);
-    }
-
-    grid.appendChild(btn);
-
-  }
-
-}
-
-
-function goHome(){
-
-  document.getElementById("levelsScreen").style.display="none";
-
-  document.getElementById("quizScreen").style.display="none";
-
-  document.getElementById("homeScreen").style.display="block";
-
-  updateHome();
-
-}
-
-
-/* ================= START LEVEL ================= */
-
-function startLevel(level){
-
-  currentQuestions=bank.filter(x=>x.level===level);
-
-  currentQuestions=currentQuestions.sort(()=>Math.random()-.5);
-
-  questionIndex=0;
-
-  score=0;
-
-  document.getElementById("levelsScreen").style.display="none";
-
-  document.getElementById("quizScreen").style.display="block";
-
-  showQuestion();
-
-}
-
-
-/* ================= SHOW QUESTION ================= */
-
-function showQuestion(){
-
-  answered=false;
-
-  const item=currentQuestions[questionIndex];
-
-  const progress=((questionIndex)/currentQuestions.length)*100;
-
-  const html=`
-
-    <div class="subject">
-      ${item.subject}
+<!-- SUBJECTS -->
+<div id="subjectScreen" class="screen">
+  <div class="card">
+    <h2 id="levelTitle">Level 1</h2>
+    <p class="small">Complete Physics, Chemistry and Maths.</p>
+
+    <div class="subjects">
+      <div class="subject" onclick="startQuiz('Physics')">
+        ⚡ Physics
+        <span id="physicsStatus">🔒</span>
+      </div>
+
+      <div class="subject" onclick="startQuiz('Chemistry')">
+        🧪 Chemistry
+        <span id="chemistryStatus">🔒</span>
+      </div>
+
+      <div class="subject" onclick="startQuiz('Maths')">
+        📐 Mathematics
+        <span id="mathsStatus">🔒</span>
+      </div>
     </div>
 
-    <p>
-      Question ${questionIndex+1} / ${currentQuestions.length}
-    </p>
+    <button class="back" onclick="showLevels()">← Levels</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quizScreen" class="screen">
+  <div class="card">
+    <h2 id="quizTitle">Physics</h2>
 
     <div class="progress">
-      <div class="progressBar" style="width:${progress}%"></div>
+      <div id="progressBar" class="progress-bar"></div>
     </div>
 
-    <div class="question">
-      ${item.q}
-    </div>
+    <p id="questionNumber"></p>
+    <div id="question" class="question"></div>
 
     <div id="options"></div>
 
-  `;
+    <p id="quizScore" class="small"></p>
+  </div>
+</div>
 
-  document.getElementById("quizContent").innerHTML=html;
+<!-- RESULT -->
+<div id="resultScreen" class="screen">
+  <div class="card">
+    <h2 style="text-align:center">🎉 Quiz Complete!</h2>
 
-  const options=[...item.options].sort(()=>Math.random()-.5);
+    <div id="resultText" class="score"></div>
 
-  const box=document.getElementById("options");
+    <button onclick="backToSubjects()">Continue</button>
+  </div>
+</div>
 
-  options.forEach(option=>{
+</div>
+
+<script>
+
+/* =========================
+   GAME DATA
+========================= */
+
+const questions = {
+
+Physics:[
+{
+q:"What is the SI unit of electric charge?",
+a:["Volt","Coulomb","Ohm","Newton"],
+c:1
+},
+{
+q:"According to Coulomb's law, force is proportional to:",
+a:["r","1/r","r²","1/r²"],
+c:3
+},
+{
+q:"The SI unit of electric field is:",
+a:["N/C","C/N","J/C","W"],
+c:0
+},
+{
+q:"What is the formula for electric field due to a point charge?",
+a:["kq/r²","kr/q","q/r","kr²/q"],
+c:0
+},
+{
+q:"Electric flux is represented by:",
+a:["Φ","λ","ρ","μ"],
+c:0
+}
+],
+
+Chemistry:[
+{
+q:"Which particle determines the atomic number?",
+a:["Electron","Proton","Neutron","Photon"],
+c:1
+},
+{
+q:"NH₃ is an example of:",
+a:["Bidentate ligand","Monodentate ligand","Chelating ligand","Ambidentate ligand"],
+c:1
+},
+{
+q:"The coordination number of [Co(NH₃)₆]³⁺ is:",
+a:["2","4","6","8"],
+c:2
+},
+{
+q:"Ethane-1,2-diamine is commonly represented as:",
+a:["en","EDTA","CN","CO"],
+c:0
+},
+{
+q:"A ligand donates an electron pair to:",
+a:["Central metal ion","Neutron","Proton","Solvent"],
+c:0
+}
+],
+
+Maths:[
+{
+q:"What is the derivative of x²?",
+a:["x","2x","x²","2"],
+c:1
+},
+{
+q:"∫1/x dx is:",
+a:["x","ln|x| + C","1/x²","x²"],
+c:1
+},
+{
+q:"sin²x + cos²x equals:",
+a:["0","2","1","x"],
+c:2
+},
+{
+q:"Derivative of sin x is:",
+a:["cos x","-cos x","tan x","-sin x"],
+c:0
+},
+{
+q:"Derivative of tan x is:",
+a:["sin x","sec²x","cos x","cot x"],
+c:1
+}
+]
+
+};
+
+
+/* =========================
+   GAME STATE
+========================= */
+
+let currentLevel=1;
+let currentSubject="";
+let currentQuestion=0;
+let score=0;
+
+let progressData={};
+
+for(let l=1;l<=15;l++){
+  progressData[l]={
+    Physics:false,
+    Chemistry:false,
+    Maths:false
+  };
+}
+
+
+/* =========================
+   SCREEN SYSTEM
+========================= */
+
+function hideAll(){
+  document.querySelectorAll(".screen")
+  .forEach(s=>s.classList.remove("active"));
+}
+
+function showLevels(){
+  hideAll();
+  document.getElementById("levelsScreen").classList.add("active");
+  renderLevels();
+}
+
+function goHome(){
+  hideAll();
+  document.getElementById("home").classList.add("active");
+}
+
+
+/* =========================
+   LEVEL SYSTEM
+========================= */
+
+function renderLevels(){
+
+  const box=document.getElementById("levels");
+  box.innerHTML="";
+
+  for(let i=1;i<=15;i++){
+
+    const unlocked=i===1 || 
+      (
+        progressData[i-1].Physics &&
+        progressData[i-1].Chemistry &&
+        progressData[i-1].Maths
+      );
 
     const btn=document.createElement("button");
 
-    btn.className="option";
+    btn.className="level "+(!unlocked?"locked":"");
 
-    btn.textContent=option;
+    btn.innerHTML=unlocked ?
+      "LEVEL "+i :
+      "🔒 LEVEL "+i;
 
-    btn.onclick=()=>answer(btn,option,item.answer);
+    if(unlocked){
+      btn.onclick=()=>selectLevel(i);
+    }
 
     box.appendChild(btn);
-
-  });
-
-}
-
-
-/* ================= ANSWER ================= */
-
-function answer(button,selected,correct){
-
-  if(answered)return;
-
-  answered=true;
-
-  const buttons=document.querySelectorAll(".option");
-
-  buttons.forEach(btn=>{
-
-    if(btn.textContent===correct){
-      btn.classList.add("correct");
-    }
-
-  });
-
-  if(selected===correct){
-
-    button.classList.add("correct");
-
-    score++;
-
-  }else{
-
-    button.classList.add("wrong");
-
   }
-
-  setTimeout(()=>{
-
-    questionIndex++;
-
-    if(questionIndex<currentQuestions.length){
-
-      showQuestion();
-
-    }else{
-
-      finishLevel();
-
-    }
-
-  },650);
-
 }
 
+function selectLevel(level){
 
-/* ================= FINISH ================= */
+  currentLevel=level;
 
-function finishLevel(){
+  hideAll();
 
-  if(score>highScore){
-
-    highScore=score;
-
-    localStorage.setItem("highScore",highScore);
-
-  }
-
-  const completedLevel=currentQuestions[0].level;
-
-  if(completedLevel>=unlocked && unlocked<30){
-
-    unlocked=completedLevel+1;
-
-    localStorage.setItem("unlockedLevel",unlocked);
-
-  }
-
-  document.getElementById("quizContent").innerHTML=`
-
-    <div class="result">
-
-      <div style="font-size:70px">🏆</div>
-
-      <h2>Level Complete!</h2>
-
-      <p style="font-size:22px">
-        Score: <b>${score}/${currentQuestions.length}</b>
-      </p>
-
-      <button class="playBtn" onclick="showLevels()">
-        🎮 SELECT LEVEL
-      </button>
-
-      <button class="secondary" onclick="goHome()">
-        🏠 HOME
-      </button>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ================= RESET ================= */
-
-function resetProgress(){
-
-  if(confirm("Reset all progress?")){
-
-    localStorage.removeItem("unlockedLevel");
-
-    localStorage.removeItem("highScore");
-
-    unlocked=1;
-
-    highScore=0;
-
-    updateHome();
-
-    alert("Progress reset successfully!");
-
-  }
-
-}
-
-
-/* ================= DOWNLOAD ================= */
-
-function downloadGame(){
-
-  const html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
-
-  const blob=new Blob([html],{type:"text/html"});
-
-  const url=URL.createObjectURL(blob);
-
-  const a=document.createElement("a");
-
-  a.href=url;
-
-  a.download="Study-Quiz-Pro.html";
-
-  a.click();
-
-  URL.revokeObjectURL(url);
-
-}
-
-
-/* ================= INITIALIZE ================= */
-
-updateHome();
-
-</script>
-
-</body>
-</html>
+  document.getElement
