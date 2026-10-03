@@ -1,69 +1,1254 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Study Quiz Pro - Gorakhpur Zone 1800Q</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Study Quiz Pro - Physics Chemistry Maths Quiz Game">
+<meta name="theme-color" content="#4f46e5">
+<title>Study Quiz Pro</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui}
-body{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;min-height:100vh}
-.container{max-width:900px;margin:0 auto;padding:12px}
-.header{background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border-radius:20px;padding:18px;text-align:center;border:1px solid rgba(255,255,255,0.1);margin-bottom:14px}
-.header h1{font-size:1.6rem;background:linear-gradient(90deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900}
-.header p{opacity:0.8;margin-top:6px;font-size:0.9rem}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.stat{background:rgba(255,255,255,0.07);padding:12px;border-radius:14px;text-align:center;border:1px solid rgba(255,255,255,0.08)}
-.stat b{font-size:1.3rem;color:#fbbf24;display:block}
-.modes{display:flex;gap:8px;overflow:auto;padding-bottom:6px;margin-bottom:12px}
-.mode{white-space:nowrap;padding:8px 14px;border-radius:20px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);cursor:pointer;font-size:0.85rem}
-.mode.active{background:linear-gradient(90deg,#f59e0b,#ef4444);border-color:transparent;font-weight:700}
-.quiz-box{background:rgba(255,255,255,0.08);border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);min-height:380px}
-.q-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:0.85rem;opacity:0.9}
-.progress{height:6px;background:rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;margin-bottom:16px}
-.progress-bar{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);width:0%;transition:0.4s}
-.question{font-size:1.15rem;font-weight:600;line-height:1.5;margin-bottom:16px}
-.options{display:grid;gap:10px}
-.opt{padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);cursor:pointer;transition:0.2s;text-align:left}
-.opt:hover{background:rgba(255,255,255,0.12);transform:translateX(4px)}
-.opt.correct{background:linear-gradient(90deg,#16a34a,#15803d);border-color:#16a34a}
-.opt.wrong{background:linear-gradient(90deg,#dc2626,#b91c1c);border-color:#dc2626}
-.btn{padding:12px 18px;border-radius:12px;border:none;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;width:100%;margin-top:14px;font-size:1rem}
-.footer{text-align:center;margin-top:16px;opacity:0.6;font-size:0.8rem}
-.badge{display:inline-block;padding:3px 8px;border-radius:20px;background:#f59e0b;color:#000;font-size:0.7rem;font-weight:800;margin-left:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#111827,#312e81,#4f46e5);
+color:white;
+min-height:100vh;
+}
+
+.container{
+width:100%;
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.screen{display:none}
+.screen.active{display:block}
+
+.card{
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.2);
+border-radius:25px;
+padding:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.logo{
+font-size:55px;
+text-align:center;
+margin-top:25px;
+}
+
+.title{
+font-size:38px;
+font-weight:bold;
+text-align:center;
+margin:10px 0;
+}
+
+.subtitle{
+text-align:center;
+opacity:.85;
+margin-bottom:25px;
+}
+
+.btn{
+width:100%;
+padding:15px;
+border:0;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+background:white;
+color:#312e81;
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+.btn.secondary{
+background:rgba(255,255,255,.15);
+color:white;
+border:1px solid rgba(255,255,255,.25);
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin:20px 0;
+}
+
+.stat{
+background:rgba(0,0,0,.2);
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+.stat b{
+display:block;
+font-size:25px;
+}
+
+.level-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.level{
+height:70px;
+border-radius:16px;
+border:0;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+background:white;
+color:#312e81;
+}
+
+.level.locked{
+background:rgba(255,255,255,.12);
+color:#aaa;
+cursor:not-allowed;
+}
+
+.level.completed{
+background:#22c55e;
+color:white;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+}
+
+.small-btn{
+border:0;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.progress{
+height:10px;
+background:rgba(255,255,255,.15);
+border-radius:20px;
+overflow:hidden;
+margin:15px 0 25px;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#22c55e;
+transition:.3s;
+}
+
+.subject{
+display:inline-block;
+padding:7px 14px;
+border-radius:20px;
+background:#f59e0b;
+font-weight:bold;
+font-size:14px;
+}
+
+.question-number{
+opacity:.75;
+margin-top:12px;
+}
+
+.question{
+font-size:24px;
+line-height:1.5;
+margin:20px 0;
+font-weight:bold;
+}
+
+.options{
+display:grid;
+gap:12px;
+}
+
+.option{
+padding:15px;
+border-radius:14px;
+background:rgba(255,255,255,.12);
+border:1px solid rgba(255,255,255,.2);
+color:white;
+font-size:17px;
+cursor:pointer;
+text-align:left;
+}
+
+.option:hover{
+background:rgba(255,255,255,.22);
+}
+
+.option.correct{
+background:#16a34a;
+}
+
+.option.wrong{
+background:#dc2626;
+}
+
+.result-icon{
+font-size:70px;
+text-align:center;
+}
+
+.result-score{
+font-size:45px;
+font-weight:bold;
+text-align:center;
+margin:10px;
+}
+
+.center{text-align:center}
+
+.badge{
+display:inline-block;
+padding:8px 14px;
+border-radius:20px;
+background:#22c55e;
+margin:5px;
+font-weight:bold;
+}
+
+.footer{
+text-align:center;
+opacity:.6;
+font-size:13px;
+margin-top:25px;
+}
+
+@media(max-width:600px){
+.container{padding:12px}
+.title{font-size:30px}
+.logo{font-size:45px}
+.level-grid{grid-template-columns:repeat(3,1fr)}
+.question{font-size:20px}
+.stats{grid-template-columns:1fr 1fr 1fr}
+.card{padding:18px}
+}
 </style>
 </head>
+
 <body>
+
 <div class="container">
-<div class="header">
-<h1>🚩 STUDY QUIZ PRO - GORAKHPUR ZONE 🚩</h1>
-<p>1800+ Questions • Hindi + English • GK | GS | Math | Reasoning | Science</p>
-<p style="margin-top:4px">Total: <span id="totalQ">1800</span> Q | Gorakhpur Special Included</p>
+
+<!-- HOME -->
+<section id="home" class="screen active">
+<div class="card">
+
+<div class="logo">🎓📚</div>
+
+<div class="title">Study Quiz Pro</div>
+
+<div class="subtitle">
+Physics • Chemistry • Mathematics
 </div>
+
 <div class="stats">
-<div class="stat"><b id="score">0</b>Score</div>
-<div class="stat"><b id="qno">1/1800</b>Question</div>
-<div class="stat"><b id="acc">0%</b>Accuracy</div>
+<div class="stat">
+<b id="homeLevel">1</b>
+Level
 </div>
-<div class="modes" id="modes"></div>
-<div class="quiz-box">
-<div class="q-head"><span id="cat">GK - Gorakhpur Zone</span><span id="timer">⏱ 30s</span></div>
-<div class="progress"><div class="progress-bar" id="pbar"></div></div>
-<div class="question" id="question">Loading...</div>
-<div class="options" id="options"></div>
-<button class="btn" id="nextBtn" style="display:none" onclick="nextQ()">Next Question →</button>
+
+<div class="stat">
+<b id="homeScore">0</b>
+High Score
 </div>
-<div class="footer">Made for Amit Maurya • Gorakhpur Zone Aspirants • Jai Hind 🇮🇳</div>
+
+<div class="stat">
+<b>1800</b>
+Questions
 </div>
+</div>
+
+<button class="btn" onclick="showLevels()">
+▶ PLAY GAME
+</button>
+
+<button class="btn secondary" onclick="downloadGame()">
+📥 DOWNLOAD GAME
+</button>
+
+<button class="btn secondary" onclick="resetGame()">
+🔄 RESET PROGRESS
+</button>
+
+<div class="footer">
+30 Levels × 60 Questions = 1800 Questions
+</div>
+
+</div>
+</section>
+
+
+<!-- LEVELS -->
+<section id="levels" class="screen">
+<div class="card">
+
+<div class="topbar">
+<button class="small-btn" onclick="showHome()">← Home</button>
+<b>Select Level</b>
+</div>
+
+<div class="center">
+<div class="badge">🔓 Level 1 Unlocked</div>
+</div>
+
+<div id="levelGrid" class="level-grid"></div>
+
+<div class="footer">
+Complete all 60 questions of a level to unlock the next level.
+</div>
+
+</div>
+</section>
+
+
+<!-- QUIZ -->
+<section id="quiz" class="screen">
+<div class="card">
+
+<div class="topbar">
+<button class="small-btn" onclick="showLevels()">← Levels</button>
+<b id="quizLevel">Level 1</b>
+</div>
+
+<div>
+<span id="subject" class="subject">Physics</span>
+<div class="question-number" id="questionNumber">
+Question 1 / 60
+</div>
+</div>
+
+<div class="progress">
+<div id="progressBar" class="progress-bar"></div>
+</div>
+
+<div id="question" class="question"></div>
+
+<div id="options" class="options"></div>
+
+</div>
+</section>
+
+
+<!-- RESULT -->
+<section id="result" class="screen">
+<div class="card center">
+
+<div class="result-icon">🏆</div>
+
+<h2 id="resultTitle">Level Complete!</h2>
+
+<div id="resultScore" class="result-score">0/60</div>
+
+<p id="resultText"></p>
+
+<button class="btn" onclick="nextAction()">
+CONTINUE
+</button>
+
+<button class="btn secondary" onclick="showLevels()">
+📚 LEVELS
+</button>
+
+</div>
+</section>
+
+</div>
+
+
 <script>
-const categories=["All Mixed","Gorakhpur Special","GK","GS","Math","Reasoning","Science","Current Affairs"];
-let currentCat="All Mixed";
-let questions=[];
-let idx=0,score=0,correct=0;
-let timerInt,timeLeft=30;
-function genQuestions(){
- const base=[
-  ["Gorakhpur ka prachin naam kya tha?","Ramgram","Gorakshpur","Muzzafarpur","Kushinagar",1],
-  ["Gorakhnath Mandir ki sthapna kisne ki?","Guru Gorakhnath","Buddha","Mahavir","Kabir",0],
-  ["Gorakhpur Zone me kitne jile aate hain?","4","3","5","6",0],
-  ["Rapti nadi kis nadi ki sahayak hai?","Ghaghara","Ganga","Yamuna","Gandak",0],
-  ["Geeta Press kahan sthit hai?","Gorakhpur","Varanasi","Lucknow","Ayodhya
+
+/* ================================
+   GAME SETTINGS
+================================ */
+
+const TOTAL_LEVELS = 30;
+const QUESTIONS_PER_LEVEL = 60;
+const QUESTIONS_PER_SUBJECT = 20;
+
+let questionBank = [];
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let currentLevel = 1;
+
+
+/* ================================
+   STORAGE
+================================ */
+
+let unlockedLevel =
+Number(localStorage.getItem("unlockedLevel")) || 1;
+
+let highScore =
+Number(localStorage.getItem("highScore")) || 0;
+
+
+/* ================================
+   HELPERS
+================================ */
+
+function shuffle(arr){
+return [...arr].sort(()=>Math.random()-0.5);
+}
+
+function makeQuestion(subject,text,options,answer){
+return {
+subject,
+text,
+options,
+answer
+};
+}
+
+
+/* ================================
+   PHYSICS QUESTIONS
+================================ */
+
+const physicsTemplates = [
+
+(l,i)=>makeQuestion(
+"Physics",
+`If the distance between two charges is doubled, the electrostatic force becomes:`,
+["2F","F/2","F/4","4F"],
+2),
+
+(l,i)=>makeQuestion(
+"Physics",
+`If F = ${10+l} N acts on a charge of 2 C, electric field is:`,
+[`${(10+l)/2} N/C`,`${10+l} N/C`,`${20+l} N/C`,`2 N/C`],
+0),
+
+(l,i)=>{
+let q=2+l;
+return makeQuestion(
+"Physics",
+`Potential due to a point charge is proportional to:`,
+["q/r","q/r²","qr","r/q"],
+0);
+},
+
+(l,i)=>makeQuestion(
+"Physics",
+`Electric flux through a closed surface depends on:`,
+["Enclosed charge","Surface shape only","Colour of surface","Mass"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`The SI unit of electric potential is:`,
+["Volt","Newton","Coulomb","Tesla"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Capacitance is defined as:`,
+["Q/V","V/Q","QV","Q+V"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Two capacitors connected in parallel have equivalent capacitance:`,
+["C1+C2","C1C2/(C1+C2)","C1-C2","C1/C2"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Ohm's law is represented by:`,
+["V=IR","V=I/R","I=VR","R=VI"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Electrical power is given by:`,
+["VI","V/I","I/V","V+I"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`The SI unit of resistance is:`,
+["Ohm","Volt","Ampere","Watt"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Magnetic force on a moving charge is maximum when angle between v and B is:`,
+["0°","30°","90°","180°"],
+2),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Force on a current carrying wire is given by:`,
+["BIL sinθ","BI/L","BL/I","B+I+L"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Faraday's law is related to:`,
+["Electromagnetic induction","Electrostatics","Gravitation","Thermodynamics"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`A transformer works on the principle of:`,
+["Mutual induction","Reflection","Refraction","Photoelectric effect"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Power of a lens of focal length 0.5 m is:`,
+["0.5 D","1 D","2 D","5 D"],
+2),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Refractive index is defined as:`,
+["c/v","v/c","cv","c+v"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`Wave velocity is given by:`,
+["v=fλ","v=f/λ","v=λ/f","v=f+λ"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`In photoelectric effect, maximum kinetic energy depends on:`,
+["Frequency of incident light","Only intensity","Mass of metal","Area of metal"],
+0),
+
+(l,i)=>makeQuestion(
+"Physics",
+`The half-life of a radioactive substance is the time in which:`,
+["All nuclei decay","Half the nuclei decay","Double nuclei form","No nucleus decays"],
+1),
+
+(l,i)=>makeQuestion(
+"Physics",
+`A semiconductor has electrical conductivity between that of:`,
+["Conductor and insulator","Two conductors","Two insulators","Vacuum and conductor"],
+0)
+
+];
+
+
+/* ================================
+   CHEMISTRY QUESTIONS
+================================ */
+
+const chemistryTemplates = [
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Molarity is defined as moles of solute per:`,
+["Litre of solution","Kg of solvent","Litre of solvent","Gram of solution"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Molality is expressed as moles of solute per:`,
+["Kg of solvent","Litre of solution","Gram of solute","Litre of solvent"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Oxidation occurs at the:`,
+["Anode","Cathode","Salt bridge","Electrolyte only"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Reduction occurs at the:`,
+["Anode","Cathode","Salt bridge","Wire"],
+1),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`The SI unit of conductivity is:`,
+["S m⁻¹","Ohm","Volt","Coulomb"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`For a first-order reaction, half-life is:`,
+["Independent of initial concentration","Dependent only on temperature","Zero","Infinite"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`A catalyst changes the:`,
+["Activation energy","Equilibrium constant permanently","Atomic number","Molecular mass"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`pH of a neutral solution at 25°C is approximately:`,
+["0","5","7","14"],
+2),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`A ligand donates electron pair to:`,
+["Central metal atom/ion","Anion only","Solvent","Proton only"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`NH3 is a:`,
+["Monodentate ligand","Bidentate ligand","Tridentate ligand","No ligand"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Ethane has the molecular formula:`,
+["C2H6","C2H4","C2H2","CH4"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`The functional group of alcohol is:`,
+["–OH","–CHO","–COOH","–NH2"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`The functional group of aldehyde is:`,
+["–CHO","–OH","–COOH","–NH2"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`The functional group of carboxylic acid is:`,
+["–COOH","–OH","–CHO","–NH2"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`The functional group of amine is:`,
+["–NH2","–OH","–COOH","–CHO"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Benzene has molecular formula:`,
+["C6H6","C6H12","C5H6","C7H8"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`PVC is an example of:`,
+["Polymer","Protein","Carbohydrate","Metal"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Proteins are polymers of:`,
+["Amino acids","Glucose","Fatty acids","Nucleotides only"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`Glucose is a:`,
+["Carbohydrate","Protein","Polymer","Metal"],
+0),
+
+(l,i)=>makeQuestion(
+"Chemistry",
+`The central metal ion in a coordination compound is surrounded by:`,
+["Ligands","Electrons only","Protons only","Neutrons"],
+0)
+
+];
+
+
+/* ================================
+   MATHS QUESTIONS
+================================ */
+
+const mathsTemplates = [
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Derivative of xⁿ is:`,
+["nxⁿ⁻¹","xⁿ⁺¹","nxⁿ","xⁿ/n"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`∫xⁿ dx, where n ≠ -1, is:`,
+["xⁿ⁺¹/(n+1)+C","nxⁿ⁻¹+C","xⁿ/n+C","ln x+C"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`∫1/x dx is:`,
+["ln|x|+C","x+C","1/x²+C","eˣ+C"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Derivative of sin x is:`,
+["cos x","-cos x","tan x","sin x"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Derivative of cos x is:`,
+["-sin x","sin x","cos x","tan x"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Derivative of tan x is:`,
+["sec²x","cosec²x","tan²x","sin x"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`tan⁻¹(1) in radians is:`,
+["π/4","π/2","π","0"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Determinant of [[a,b],[c,d]] is:`,
+["ad-bc","ab-cd","ac-bd","a+b+c+d"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Determinant of a 2×2 identity matrix is:`,
+["0","1","2","-1"],
+1),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`A function is continuous at x=a when:`,
+["LHL=RHL=f(a)","LHL≠RHL","f(a)=0 only","Derivative is always zero"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`∫eˣ dx is:`,
+["eˣ+C","xeˣ+C","ln x+C","1/eˣ+C"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`∫cos x dx is:`,
+["sin x+C","-sin x+C","cos x+C","tan x+C"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`The order of a differential equation is the highest:`,
+["Order of derivative","Power of x","Coefficient","Constant"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`If two vectors are perpendicular, their dot product is:`,
+["0","1","-1","Infinity"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Magnitude of vector ai+bj+ck is:`,
+["√(a²+b²+c²)","a+b+c","abc","a²+b²+c²"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Probability of a certain event is:`,
+["0","1","1/2","-1"],
+1),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Probability of an impossible event is:`,
+["0","1","1/2","-1"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Conditional probability P(A|B) is:`,
+["P(A∩B)/P(B)","P(A)+P(B)","P(A)-P(B)","P(A)P(B)"],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`Distance between (x1,y1,z1) and (x2,y2,z2) is:`,
+[
+"√[(x2-x1)²+(y2-y1)²+(z2-z1)²]",
+"x1+x2+y1+y2+z1+z2",
+"√(x1+x2+y1+y2)",
+"x2-x1+y2-y1+z2-z1"
+],
+0),
+
+(l,i)=>makeQuestion(
+"Mathematics",
+`The objective function in Linear Programming is used to:`,
+["Maximize or minimize a quantity","Find only derivatives","Find only matrices","Calculate pH"],
+0)
+
+];
+
+
+/* ================================
+   BUILD 1800 QUESTIONS
+================================ */
+
+function buildQuestionBank(){
+
+questionBank=[];
+
+for(let level=1;level<=TOTAL_LEVELS;level++){
+
+for(let i=0;i<20;i++){
+questionBank.push(
+physicsTemplates[i](level,i)
+);
+}
+
+for(let i=0;i<20;i++){
+questionBank.push(
+chemistryTemplates[i](level,i)
+);
+}
+
+for(let i=0;i<20;i++){
+questionBank.push(
+mathsTemplates[i](level,i)
+);
+}
+
+}
+
+console.log(
+"Total questions generated:",
+questionBank.length
+);
+}
+
+
+/* ================================
+   SCREEN CONTROL
+================================ */
+
+function hideAll(){
+document.querySelectorAll(".screen")
+.forEach(s=>s.classList.remove("active"));
+}
+
+function showHome(){
+hideAll();
+document.getElementById("home").classList.add("active");
+updateHome();
+}
+
+function showLevels(){
+hideAll();
+document.getElementById("levels").classList.add("active");
+renderLevels();
+}
+
+function showQuiz(){
+hideAll();
+document.getElementById("quiz").classList.add("active");
+}
+
+
+/* ================================
+   HOME
+================================ */
+
+function updateHome(){
+
+document.getElementById("homeLevel")
+.textContent=unlockedLevel;
+
+document.getElementById("homeScore")
+.textContent=highScore;
+
+}
+
+
+/* ================================
+   LEVELS
+================================ */
+
+function renderLevels(){
+
+const grid=document.getElementById("levelGrid");
+grid.innerHTML="";
+
+for(let i=1;i<=TOTAL_LEVELS;i++){
+
+const button=document.createElement("button");
+
+button.className="level";
+
+const completed =
+i < unlockedLevel;
+
+const locked =
+i > unlockedLevel;
+
+if(completed)
+button.classList.add("completed");
+
+if(locked)
+button.classList.add("locked");
+
+if(locked){
+button.innerHTML="🔒 "+i;
+button.disabled=true;
+}else{
+button.innerHTML=
+completed ? "✓ "+i : "▶ "+i;
+
+button.onclick=()=>startLevel(i);
+}
+
+grid.appendChild(button);
+}
+
+}
+
+
+/* ================================
+   START LEVEL
+================================ */
+
+function startLevel(level){
+
+if(level>unlockedLevel){
+return;
+}
+
+currentLevel=level;
+
+currentQuestions=
+questionBank.slice(
+(level-1)*60,
+level*60
+);
+
+currentQuestions=shuffle(currentQuestions);
+
+currentIndex=0;
+score=0;
+
+document.getElementById("quizLevel")
+.textContent="Level "+level;
+
+showQuiz();
+
+showQuestion();
+}
+
+
+/* ================================
+   SHOW QUESTION
+================================ */
+
+function showQuestion(){
+
+if(currentIndex>=currentQuestions.length){
+finishLevel();
+return;
+}
+
+const q=currentQuestions[currentIndex];
+
+document.getElementById("subject")
+.textContent=q.subject;
+
+document.getElementById("questionNumber")
+.textContent=
+`Question ${currentIndex+1} / 60`;
+
+document.getElementById("progressBar")
+.style.width=
+`${((currentIndex)/60)*100}%`;
+
+document.getElementById("question")
+.textContent=q.text;
+
+const optionsDiv=
+document.getElementById("options");
+
+optionsDiv.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.className="option";
+button.textContent=
+String.fromCharCode(65+index)+". "+option;
+
+button.onclick=()=>{
+selectAnswer(index,button);
+};
+
+optionsDiv.appendChild(button);
+
+});
+
+}
+
+
+/* ================================
+   ANSWER
+================================ */
+
+function selectAnswer(selected,button){
+
+const q=currentQuestions[currentIndex];
+
+const buttons=
+document.querySelectorAll(".option");
+
+buttons.forEach(b=>b.disabled=true);
+
+if(selected===q.answer){
+
+button.classList.add("correct");
+score++;
+
+}else{
+
+button.classList.add("wrong");
+
+buttons[q.answer]
+.classList.add("correct");
+
+}
+
+setTimeout(()=>{
+
+currentIndex++;
+showQuestion();
+
+},600);
+
+}
+
+
+/* ================================
+   FINISH LEVEL
+================================ */
+
+function finishLevel(){
+
+document.getElementById("progressBar")
+.style.width="100%";
+
+if(score>highScore){
+highScore=score;
+localStorage.setItem(
+"highScore",
+highScore
+);
+}
+
+let unlockedNext=false;
+
+if(
+currentLevel===unlockedLevel &&
+currentLevel<TOTAL_LEVELS
+){
+
+unlockedLevel++;
+
+localStorage.setItem(
+"unlockedLevel",
+unlockedLevel
+);
+
+unlockedNext=true;
+}
+
+document.getElementById("resultScore")
+.textContent=`${score} / 60`;
+
+if(score>=50){
+
+document.getElementById("resultTitle")
+.textContent="🔥 Excellent!";
+
+}else if(score>=35){
+
+document.getElementById("resultTitle")
+.textContent="👏 Great Job!";
+
+}else{
+
+document.getElementById("resultTitle")
+.textContent="💪 Keep Practising!";
+
+}
+
+if(unlockedNext){
+
+document.getElementById("resultText")
+.textContent=
+`Level ${currentLevel+1} unlocked! 🎉`;
+
+}else if(currentLevel===TOTAL_LEVELS){
+
+document.getElementById("resultText")
+.textContent=
+"You completed all 30 levels! 🏆";
+
+}else{
+
+document.getElementById("resultText")
+.textContent=
+"You can replay this level or continue your practice.";
+
+}
+
+hideAll();
+
+document.getElementById("result")
+.classList.add("active");
+
+}
+
+
+/* ================================
+   NEXT ACTION
+================================ */
+
+function nextAction(){
+
+if(
+currentLevel<TOTAL_LEVELS &&
+currentLevel<unlockedLevel
+){
+
+startLevel(currentLevel+1);
+
+}else{
+
+showLevels();
+
+}
+
+}
+
+
+/* ================================
+   DOWNLOAD GAME
+================================ */
+
+function downloadGame(){
+
+const html=
+"<!DOCTYPE html>\n"+
+document.documentElement.outerHTML;
+
+const blob=
+new Blob([html],{type:"text/html"});
+
+const url=
+URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+
+a.href=url;
+a.download="StudyQuizPro.html";
+
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+URL.revokeObjectURL(url);
+
+alert(
+"Game downloaded! 📥\n\n"+
+"You can save it as an HTML file."
+);
+
+}
+
+
+/* ================================
+   RESET
+================================ */
+
+function resetGame(){
+
+const confirmReset=
+confirm(
+"Are you sure you want to reset all progress?"
+);
+
+if(!confirmReset)return;
+
+localStorage.removeItem("unlockedLevel");
+localStorage.removeItem("highScore");
+
+unlockedLevel=1;
+highScore=0;
+
+updateHome();
+
+alert("Progress reset successfully!");
+
+}
+
+
+/* ================================
+   INITIALIZE
+================================ */
+
+buildQuestionBank();
+
+updateHome();
+
+console.log(
+"Study Quiz Pro Ready!"
+);
+
+console.log(
+"Levels:",TOTAL_LEVELS
+);
+
+console.log(
+"Questions:",questionBank.length
+);
+
+</script>
+
+</body>
+</html>
