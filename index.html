@@ -1,1199 +1,869 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#4f46e5">
 
 <title>Study Quiz Pro</title>
 
-<!-- STUDY QUIZ PRO ICON -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%234f46e5'/%3E%3Cpath d='M256 80L60 175l196 90 196-90z' fill='%23111827'/%3E%3Cpath d='M120 215v80c0 55 60 90 136 90s136-35 136-90v-80l-136 65z' fill='%23232b3b'/%3E%3Cpath d='M430 180v135' stroke='%23facc15' stroke-width='14'/%3E%3Ccircle cx='430' cy='330' r='18' fill='%23facc15'/%3E%3Cpath d='M105 385c50-25 100-25 151 5v65c-51-30-101-30-151-5z' fill='white'/%3E%3Cpath d='M407 385c-50-25-100-25-151 5v65c51-30 101-30 151-5z' fill='%23e5e7eb'/%3E%3Ctext x='256' y='495' text-anchor='middle' font-family='Arial' font-size='38' font-weight='bold' fill='white'%3EQUIZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+<rect width='100' height='100' rx='25' fill='%234f46e5'/>
+<text x='50' y='67' text-anchor='middle' font-size='55'>🎓</text>
+</svg>">
 
 <style>
-
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
 }
 
 body{
-font-family:Arial,sans-serif;
-min-height:100vh;
-background:
-radial-gradient(circle at 20% 20%,#6366f1 0%,transparent 30%),
-radial-gradient(circle at 80% 80%,#7c3aed 0%,transparent 30%),
-linear-gradient(135deg,#080b18,#312e81);
-color:white;
+  min-height:100vh;
+  background:
+  radial-gradient(circle at top,#6366f1 0%,transparent 40%),
+  linear-gradient(135deg,#111827,#312e81,#4c1d95);
+  color:white;
 }
 
-body:before{
-content:"🎓   📚   🧪   ⚡   ∑   🔬";
-position:fixed;
-inset:0;
-font-size:55px;
-opacity:.035;
-line-height:2;
-word-spacing:50px;
-pointer-events:none;
+/* ================= SPLASH SCREEN ================= */
+
+#splash{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:
+  radial-gradient(circle at top,#6366f1,transparent 45%),
+  linear-gradient(135deg,#111827,#312e81,#4c1d95);
+  transition:.7s;
 }
 
-.app{
-width:100%;
-max-width:900px;
-margin:auto;
-padding:18px;
-position:relative;
-z-index:2;
+#splash.hide{
+  opacity:0;
+  visibility:hidden;
 }
 
-.screen{
-display:none;
-}
-
-.screen.active{
-display:block;
-}
-
-.card{
-background:rgba(255,255,255,.12);
-border:1px solid rgba(255,255,255,.2);
-backdrop-filter:blur(18px);
-border-radius:28px;
-padding:25px;
-box-shadow:0 20px 60px rgba(0,0,0,.3);
+.splashBox{
+  width:90%;
+  max-width:430px;
+  animation:zoom .9s ease;
 }
 
 .logo{
-width:110px;
-height:110px;
-margin:15px auto;
-border-radius:28px;
-background:linear-gradient(135deg,#4f46e5,#7c3aed);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:60px;
-box-shadow:0 15px 30px rgba(0,0,0,.3);
+  width:130px;
+  height:130px;
+  margin:auto;
+  border-radius:35px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:72px;
+  background:linear-gradient(135deg,#7c3aed,#4f46e5);
+  box-shadow:0 20px 50px #0007;
+  animation:float 2s infinite;
 }
 
-.title{
-text-align:center;
-font-size:40px;
-font-weight:900;
-margin:12px 0;
+.splashBox h1{
+  margin-top:25px;
+  font-size:42px;
+}
+
+.tagline{
+  margin-top:10px;
+  font-size:19px;
+}
+
+.subjects{
+  margin-top:10px;
+  opacity:.75;
+}
+
+.loader{
+  width:220px;
+  height:7px;
+  margin:35px auto 12px;
+  border-radius:20px;
+  overflow:hidden;
+  background:#ffffff33;
+}
+
+.loaderBar{
+  height:100%;
+  width:40%;
+  background:white;
+  border-radius:20px;
+  animation:load 1.4s infinite;
+}
+
+.loadingText{
+  opacity:.65;
+  font-size:13px;
+}
+
+@keyframes load{
+  from{transform:translateX(-150%)}
+  to{transform:translateX(350%)}
+}
+
+@keyframes zoom{
+  from{opacity:0;transform:scale(.8)}
+  to{opacity:1;transform:scale(1)}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+/* ================= MAIN APP ================= */
+
+#app{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  padding:25px 15px 40px;
+}
+
+.card{
+  background:#ffffff13;
+  border:1px solid #ffffff25;
+  backdrop-filter:blur(15px);
+  border-radius:28px;
+  padding:25px;
+  box-shadow:0 20px 60px #0004;
+}
+
+.header{
+  text-align:center;
+}
+
+.headerLogo{
+  width:100px;
+  height:100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+  border-radius:28px;
+  background:linear-gradient(135deg,#7c3aed,#4f46e5);
+}
+
+h1{
+  font-size:40px;
+  margin-top:18px;
 }
 
 .subtitle{
-text-align:center;
-font-size:18px;
-opacity:.8;
-margin-bottom:25px;
+  margin-top:10px;
+  font-size:18px;
+  opacity:.8;
 }
 
 .stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin:20px 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:30px 0;
 }
 
 .stat{
-background:rgba(0,0,0,.18);
-border-radius:18px;
-padding:17px 8px;
-text-align:center;
+  padding:20px 8px;
+  border-radius:22px;
+  text-align:center;
+  background:#11182755;
 }
 
 .stat strong{
-font-size:27px;
-display:block;
+  display:block;
+  font-size:32px;
 }
 
 .stat span{
-font-size:14px;
-opacity:.8;
+  opacity:.75;
+  font-size:14px;
 }
 
-.btn{
-width:100%;
-padding:17px;
-margin-top:12px;
-border:none;
-border-radius:17px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-background:white;
-color:#312e81;
-box-shadow:0 8px 20px rgba(0,0,0,.2);
+button{
+  width:100%;
+  border:0;
+  border-radius:20px;
+  padding:17px;
+  margin-top:12px;
+  font-size:20px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.btn:active{
-transform:scale(.98);
+button:active{
+  transform:scale(.97);
 }
 
-.btn.secondary{
-background:rgba(255,255,255,.12);
-border:1px solid rgba(255,255,255,.25);
-color:white;
+.playBtn{
+  background:white;
+  color:#312e81;
 }
 
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
+.secondary{
+  background:#ffffff16;
+  color:white;
+  border:1px solid #ffffff35;
 }
 
-.small{
-padding:10px 14px;
-border:0;
-border-radius:12px;
-font-weight:bold;
-cursor:pointer;
+/* ================= LEVELS ================= */
+
+#levelsScreen,#quizScreen{
+  display:none;
+}
+
+.sectionTitle{
+  text-align:center;
+  font-size:30px;
+  margin-bottom:20px;
 }
 
 .levelGrid{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
-.level{
-height:68px;
-border:0;
-border-radius:16px;
-font-size:19px;
-font-weight:bold;
-cursor:pointer;
-background:white;
-color:#312e81;
+.levelBtn{
+  padding:18px 5px;
+  margin:0;
+  font-size:18px;
+  background:#ffffff15;
+  color:white;
+  border:1px solid #ffffff25;
 }
 
-.level.done{
-background:#22c55e;
-color:white;
+.levelBtn.locked{
+  opacity:.35;
 }
 
-.level.lock{
-background:rgba(255,255,255,.1);
-color:#aaa;
-cursor:not-allowed;
+.levelBtn.open{
+  background:linear-gradient(135deg,#6366f1,#7c3aed);
 }
 
-.badge{
-display:inline-block;
-padding:8px 15px;
-background:#22c55e;
-border-radius:30px;
-font-weight:bold;
-margin-bottom:15px;
+.backBtn{
+  margin-bottom:15px;
+  background:#ffffff12;
+  color:white;
 }
 
-.subject{
-display:inline-block;
-background:#f59e0b;
-padding:7px 15px;
-border-radius:20px;
-font-weight:bold;
-}
-
-.qnumber{
-opacity:.7;
-margin-top:10px;
-}
+/* ================= QUIZ ================= */
 
 .progress{
-height:10px;
-background:rgba(255,255,255,.15);
-border-radius:20px;
-overflow:hidden;
-margin:15px 0 25px;
+  height:8px;
+  background:#ffffff20;
+  border-radius:20px;
+  overflow:hidden;
+  margin:15px 0 25px;
 }
 
 .progressBar{
-height:100%;
-width:0;
-background:#22c55e;
-transition:.3s;
+  height:100%;
+  width:0;
+  background:white;
+  transition:.3s;
+}
+
+.subject{
+  display:inline-block;
+  padding:7px 13px;
+  border-radius:20px;
+  background:#ffffff18;
+  margin-bottom:15px;
 }
 
 .question{
-font-size:24px;
-font-weight:bold;
-line-height:1.5;
-margin-bottom:22px;
-}
-
-.options{
-display:grid;
-gap:12px;
+  font-size:24px;
+  line-height:1.4;
+  margin-bottom:20px;
 }
 
 .option{
-width:100%;
-padding:16px;
-border-radius:15px;
-border:1px solid rgba(255,255,255,.2);
-background:rgba(255,255,255,.1);
-color:white;
-text-align:left;
-font-size:17px;
-cursor:pointer;
+  background:#ffffff12;
+  color:white;
+  border:1px solid #ffffff25;
+  text-align:left;
+  font-size:17px;
+  margin-top:10px;
 }
 
 .option.correct{
-background:#16a34a;
+  background:#15803d;
 }
 
 .option.wrong{
-background:#dc2626;
+  background:#b91c1c;
 }
 
-.resultIcon{
-font-size:75px;
-text-align:center;
+.result{
+  text-align:center;
+  padding:20px;
 }
 
-.resultTitle{
-text-align:center;
-font-size:30px;
-margin:10px;
+.result h2{
+  font-size:35px;
+  margin-bottom:15px;
 }
 
-.resultScore{
-text-align:center;
-font-size:50px;
-font-weight:bold;
+@media(max-width:500px){
+  h1{font-size:34px}
+  .splashBox h1{font-size:36px}
+  .question{font-size:21px}
+  .stats{gap:8px}
+  .stat strong{font-size:27px}
+  .levelGrid{grid-template-columns:repeat(3,1fr)}
 }
-
-.center{
-text-align:center;
-}
-
-.footer{
-text-align:center;
-opacity:.6;
-font-size:13px;
-margin-top:25px;
-}
-
-@media(max-width:600px){
-
-.app{
-padding:12px;
-}
-
-.card{
-padding:18px;
-}
-
-.title{
-font-size:31px;
-}
-
-.levelGrid{
-grid-template-columns:repeat(3,1fr);
-}
-
-.question{
-font-size:20px;
-}
-
-.logo{
-width:90px;
-height:90px;
-font-size:48px;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- ================= PROFESSIONAL SPLASH ================= -->
 
-<!-- HOME -->
+<div id="splash">
+  <div class="splashBox">
 
-<section id="home" class="screen active">
+    <div class="logo">🎓</div>
 
-<div class="card">
+    <h1>Study Quiz Pro</h1>
 
-<div class="logo">🎓</div>
+    <p class="tagline">Learn • Play • Improve</p>
 
-<h1 class="title">Study Quiz Pro</h1>
+    <p class="subjects">
+      Physics • Chemistry • Mathematics
+    </p>
 
-<p class="subtitle">
-Physics • Chemistry • Mathematics
-</p>
+    <div class="loader">
+      <div class="loaderBar"></div>
+    </div>
 
-<div class="stats">
+    <p class="loadingText">Loading Game...</p>
 
-<div class="stat">
-<strong id="levelStat">1</strong>
-<span>Level</span>
+  </div>
 </div>
 
-<div class="stat">
-<strong id="scoreStat">0</strong>
-<span>High Score</span>
-</div>
 
-<div class="stat">
-<strong>1800</strong>
-<span>Questions</span>
-</div>
+<!-- ================= HOME ================= -->
 
-</div>
+<div id="app">
 
-<button class="btn" onclick="showLevels()">
-▶ PLAY GAME
-</button>
+  <div id="homeScreen" class="card">
 
-<button class="btn secondary" onclick="downloadGame()">
-📥 DOWNLOAD GAME
-</button>
+    <div class="header">
 
-<button class="btn secondary" onclick="resetProgress()">
-🔄 RESET PROGRESS
-</button>
+      <div class="headerLogo">🎓</div>
 
-<div class="footer">
-30 Levels × 60 Questions = 1800 Questions
-</div>
+      <h1>Study Quiz Pro</h1>
 
-</div>
+      <p class="subtitle">
+        Physics • Chemistry • Mathematics
+      </p>
 
-</section>
+    </div>
 
+    <div class="stats">
 
-<!-- LEVELS -->
+      <div class="stat">
+        <strong id="currentLevel">1</strong>
+        <span>Level</span>
+      </div>
 
-<section id="levels" class="screen">
+      <div class="stat">
+        <strong id="highScore">0</strong>
+        <span>High Score</span>
+      </div>
 
-<div class="card">
+      <div class="stat">
+        <strong>1800</strong>
+        <span>Questions</span>
+      </div>
 
-<div class="top">
-<button class="small" onclick="showHome()">← Home</button>
-<b>Select Level</b>
-</div>
+    </div>
 
-<div class="center">
-<div class="badge">
-🔓 Level <span id="unlockedText">1</span> Unlocked
-</div>
-</div>
+    <button class="playBtn" onclick="showLevels()">
+      ▶ PLAY GAME
+    </button>
 
-<div id="levelGrid" class="levelGrid"></div>
+    <button class="secondary" onclick="downloadGame()">
+      📥 DOWNLOAD GAME
+    </button>
 
-<div class="footer">
-Complete 60 questions to unlock the next level.
-</div>
+    <button class="secondary" onclick="resetProgress()">
+      🔄 RESET PROGRESS
+    </button>
 
-</div>
+    <p style="text-align:center;margin-top:25px;opacity:.65">
+      30 Levels × 60 Questions = 1800 Questions
+    </p>
 
-</section>
+  </div>
 
 
-<!-- QUIZ -->
+  <!-- ================= LEVEL SCREEN ================= -->
 
-<section id="quiz" class="screen">
+  <div id="levelsScreen" class="card">
 
-<div class="card">
+    <button class="backBtn" onclick="goHome()">← BACK</button>
 
-<div class="top">
-<button class="small" onclick="showLevels()">← Levels</button>
-<b id="levelName">Level 1</b>
-</div>
+    <h2 class="sectionTitle">🎮 SELECT LEVEL</h2>
 
-<span id="subject" class="subject">
-Physics
-</span>
+    <div id="levelGrid" class="levelGrid"></div>
 
-<div id="qnumber" class="qnumber">
-Question 1 / 60
-</div>
-
-<div class="progress">
-<div id="progressBar" class="progressBar"></div>
-</div>
-
-<div id="question" class="question"></div>
-
-<div id="options" class="options"></div>
-
-</div>
-
-</section>
+  </div>
 
 
-<!-- RESULT -->
+  <!-- ================= QUIZ SCREEN ================= -->
 
-<section id="result" class="screen">
+  <div id="quizScreen" class="card">
 
-<div class="card center">
+    <button class="backBtn" onclick="showLevels()">
+      ← LEVELS
+    </button>
 
-<div class="resultIcon">🏆</div>
+    <div id="quizContent"></div>
 
-<h2 id="resultTitle" class="resultTitle">
-Level Complete!
-</h2>
-
-<div id="resultScore" class="resultScore">
-0 / 60
-</div>
-
-<p id="resultText"></p>
-
-<button class="btn" onclick="continueGame()">
-CONTINUE
-</button>
-
-<button class="btn secondary" onclick="showLevels()">
-📚 LEVELS
-</button>
-
-</div>
-
-</section>
+  </div>
 
 </div>
 
 
 <script>
 
-/* =========================
-GAME DATA
-========================= */
+/* ================= SPLASH ================= */
 
-const TOTAL_LEVELS=30;
-const PER_LEVEL=60;
+window.addEventListener("load",function(){
+
+  setTimeout(function(){
+
+    const splash=document.getElementById("splash");
+
+    splash.classList.add("hide");
+
+    setTimeout(function(){
+      splash.remove();
+    },700);
+
+  },1800);
+
+});
+
+
+/* ================= QUESTION BANK ================= */
+
+const physicsQuestions=[
+["What is the SI unit of force?","Newton","Joule","Watt","Pascal"],
+["What is the SI unit of electric charge?","Coulomb","Volt","Ohm","Tesla"],
+["What is the formula of electric field?","F/q","q/F","Fq","q²/F"],
+["What is the SI unit of electric potential?","Volt","Ampere","Ohm","Coulomb"],
+["What is Coulomb's law?","F = kq₁q₂/r²","F = kq/r","F = ma","V = IR"],
+["What is the SI unit of resistance?","Ohm","Volt","Ampere","Watt"],
+["What is the SI unit of power?","Watt","Joule","Newton","Volt"],
+["What is the speed of light in vacuum?","3 × 10⁸ m/s","3 × 10⁶ m/s","3 × 10⁵ m/s","3 × 10¹⁰ m/s"],
+["What is frequency measured in?","Hertz","Newton","Joule","Tesla"],
+["What is the lens formula?","1/f = 1/v - 1/u","f=u+v","f=uv","1/f=u-v"],
+["What is Ohm's law?","V = IR","V = I/R","V = R/I","V = IR²"],
+["What is the SI unit of magnetic field?","Tesla","Weber","Henry","Volt"],
+["What is the unit of wavelength?","metre","hertz","second","newton"],
+["What is acceleration due to gravity approximately?","9.8 m/s²","98 m/s²","0.98 m/s²","9.8 m/s"],
+["What is kinetic energy?","½mv²","mgh","mv","ma"],
+["What is potential energy near Earth?","mgh","½mv²","mv²","mg"],
+["What is the SI unit of energy?","Joule","Watt","Newton","Pascal"],
+["What is the relation between frequency and time period?","f = 1/T","f = T","f = T²","f = 2T"],
+["What does AC stand for?","Alternating Current","Active Current","Average Current","Applied Current"],
+["What does DC stand for?","Direct Current","Double Current","Digital Current","Dynamic Current"]
+];
+
+const chemistryQuestions=[
+["What is the atomic number of hydrogen?","1","2","8","6"],
+["What is the chemical formula of water?","H₂O","CO₂","O₂","H₂"],
+["What is the pH of neutral water at 25°C?","7","1","14","5"],
+["What is the SI unit of amount of substance?","Mole","Gram","Litre","Molar"],
+["What is a ligand?","Species donating electron pair","Proton donor","Electron acceptor only","Neutron donor"],
+["NH₃ is what type of ligand?","Monodentate","Bidentate","Tridentate","Tetradentate"],
+["en is what type of ligand?","Bidentate","Monodentate","Tridentate","None"],
+["What is coordination number?","Number of donor atoms attached to central metal","Atomic number","Mass number","Oxidation number"],
+["What is oxidation?","Loss of electrons","Gain of electrons","Gain of protons","Loss of neutrons"],
+["What is reduction?","Gain of electrons","Loss of electrons","Loss of protons","Gain of neutrons"],
+["What is the formula of sodium chloride?","NaCl","Na₂Cl","NaCl₂","Na₂Cl₂"],
+["What is Avogadro number?","6.022 × 10²³","6.022 × 10²²","3 × 10⁸","9.8"],
+["What is an electrolyte?","Substance producing ions in solution","Neutral gas","Metal only","Solid only"],
+["What is electrochemistry?","Study of chemical and electrical energy relationship","Study of sound","Study of light","Study of gravity"],
+["What is the oxidation state of oxygen usually?","-2","+2","0","+1"],
+["What is a catalyst?","Substance changing reaction rate","Reactant consumed completely","Product","Solvent only"],
+["What is a chelating ligand?","Ligand forming ring with metal","Ligand with no donor atom","An ion only","A solvent"],
+["What is the formula of glucose?","C₆H₁₂O₆","C₆H₆","CH₄","C₂H₅OH"],
+["What is the SI unit of molarity?","mol/L","kg/L","g/L","mol/kg"],
+["What is Werner theory related to?","Coordination compounds","Organic polymers","Thermodynamics","Electrolysis only"]
+];
+
+const mathsQuestions=[
+["What is derivative of x²?","2x","x","x²","2"],
+["What is integral of x dx?","x²/2 + C","x + C","2x + C","x³ + C"],
+["What is sin²x + cos²x?","1","0","2","x"],
+["What is tan x?","sin x/cos x","cos x/sin x","sin x cos x","1/sin x"],
+["What is derivative of sin x?","cos x","sin x","-cos x","tan x"],
+["What is derivative of cos x?","-sin x","sin x","cos x","tan x"],
+["What is derivative of tan x?","sec²x","tan²x","cos²x","sin²x"],
+["What is ∫1/x dx?","ln|x| + C","x + C","1/x² + C","log x²"],
+["What is sin 90°?","1","0","-1","1/2"],
+["What is cos 0°?","1","0","-1","1/2"],
+["What is tan 45°?","1","0","√3","1/√3"],
+["What is log(1)?","0","1","10","-1"],
+["What is determinant of a 2×2 matrix?","ad-bc","ab-cd","a+b+c+d","ac-bd"],
+["What is the slope of a horizontal line?","0","1","∞","-1"],
+["What is the distance formula?","√((x₂-x₁)²+(y₂-y₁)²)","x₂-x₁","y₂-y₁","x₁x₂"],
+["What is the quadratic formula?","(-b±√(b²-4ac))/2a","b/2a","a/b","√b/a"],
+["What is derivative of eˣ?","eˣ","xeˣ","1/eˣ","0"],
+["What is derivative of ln x?","1/x","x","ln x","eˣ"],
+["What is ∫cos x dx?","sin x + C","cos x + C","-sin x + C","tan x + C"],
+["What is ∫sin x dx?","-cos x + C","cos x + C","sin x + C","tan x + C"]
+];
+
+
+/* ================= CREATE 1800 QUESTIONS ================= */
 
 let bank=[];
-let questions=[];
-let index=0;
+
+for(let level=1;level<=30;level++){
+
+  physicsQuestions.forEach((q,i)=>{
+    bank.push({
+      level:level,
+      subject:"Physics",
+      q:q[0],
+      options:q.slice(1),
+      answer:q[1]
+    });
+  });
+
+  chemistryQuestions.forEach((q,i)=>{
+    bank.push({
+      level:level,
+      subject:"Chemistry",
+      q:q[0],
+      options:q.slice(1),
+      answer:q[1]
+    });
+  });
+
+  mathsQuestions.forEach((q,i)=>{
+    bank.push({
+      level:level,
+      subject:"Mathematics",
+      q:q[0],
+      options:q.slice(1),
+      answer:q[1]
+    });
+  });
+
+}
+
+
+/* ================= GAME VARIABLES ================= */
+
+let unlocked=Number(localStorage.getItem("unlockedLevel"))||1;
+
+let highScore=Number(localStorage.getItem("highScore"))||0;
+
+let currentQuestions=[];
+
+let questionIndex=0;
+
 let score=0;
-let level=1;
 
-let unlocked=
-Number(localStorage.getItem("studyUnlocked"))||1;
+let answered=false;
 
-let highScore=
-Number(localStorage.getItem("studyHighScore"))||0;
 
-
-/* =========================
-QUESTION CREATOR
-========================= */
-
-function Q(subject,text,options,answer){
-
-return{
-subject:subject,
-text:text,
-options:options,
-answer:answer
-};
-
-}
-
-
-/* =========================
-PHYSICS
-========================= */
-
-const physics=[
-
-Q("Physics",
-"If distance between two charges is doubled, force becomes:",
-["2F","F/2","F/4","4F"],2),
-
-Q("Physics",
-"Electric field is defined as:",
-["F/q","q/F","Fq","F+q"],0),
-
-Q("Physics",
-"SI unit of electric field is:",
-["N/C","C/N","J/C","W"],0),
-
-Q("Physics",
-"SI unit of electric potential is:",
-["Volt","Newton","Tesla","Ampere"],0),
-
-Q("Physics",
-"Electric flux through a closed surface depends on:",
-["Enclosed charge","Mass","Colour","Area only"],0),
-
-Q("Physics",
-"Capacitance is:",
-["Q/V","V/Q","QV","Q+V"],0),
-
-Q("Physics",
-"Two capacitors in parallel have equivalent capacitance:",
-["C1+C2","C1C2","C1-C2","C1/C2"],0),
-
-Q("Physics",
-"Ohm's law is:",
-["V=IR","V=I/R","I=VR","R=VI"],0),
-
-Q("Physics",
-"Electrical power is:",
-["VI","V/I","I/V","V+I"],0),
-
-Q("Physics",
-"SI unit of resistance is:",
-["Ohm","Volt","Watt","Tesla"],0),
-
-Q("Physics",
-"Magnetic force is maximum when angle between v and B is:",
-["0°","30°","90°","180°"],2),
-
-Q("Physics",
-"Force on current carrying wire is:",
-["BIL sinθ","BI/L","BL/I","B+I+L"],0),
-
-Q("Physics",
-"Faraday's law is related to:",
-["Electromagnetic induction","Gravitation","Heat","Sound"],0),
-
-Q("Physics",
-"Transformer works on:",
-["Mutual induction","Reflection","Refraction","Diffraction"],0),
-
-Q("Physics",
-"Power of a lens of focal length 0.5 m is:",
-["0.5D","1D","2D","5D"],2),
-
-Q("Physics",
-"Refractive index is:",
-["c/v","v/c","cv","c+v"],0),
-
-Q("Physics",
-"Wave velocity is:",
-["fλ","f/λ","λ/f","f+λ"],0),
-
-Q("Physics",
-"Photoelectric effect mainly depends on light:",
-["Frequency","Colour of metal only","Mass","Area"],0),
-
-Q("Physics",
-"Half-life is the time in which:",
-["Half nuclei decay","All nuclei decay","No nuclei decay","Double nuclei form"],0),
-
-Q("Physics",
-"A semiconductor conductivity lies between:",
-["Conductor and insulator","Two conductors","Two insulators","Vacuum"],0)
-
-];
-
-
-/* =========================
-CHEMISTRY
-========================= */
-
-const chemistry=[
-
-Q("Chemistry",
-"Molarity means moles of solute per:",
-["Litre of solution","Kg solvent","Gram solution","Litre solvent"],0),
-
-Q("Chemistry",
-"Molality means moles of solute per:",
-["Kg solvent","Litre solution","Gram solute","Mole solvent"],0),
-
-Q("Chemistry",
-"Oxidation occurs at:",
-["Anode","Cathode","Salt bridge","Electrolyte"],0),
-
-Q("Chemistry",
-"Reduction occurs at:",
-["Cathode","Anode","Salt bridge","Wire"],0),
-
-Q("Chemistry",
-"SI unit of conductivity is:",
-["S m⁻¹","Ohm","Volt","Coulomb"],0),
-
-Q("Chemistry",
-"Half-life of first order reaction is:",
-["Independent of initial concentration","Always zero","Infinite","Always changing"],0),
-
-Q("Chemistry",
-"A catalyst changes:",
-["Activation energy","Atomic number","Mass","Equilibrium constant"],0),
-
-Q("Chemistry",
-"pH of neutral water at 25°C is:",
-["0","5","7","14"],2),
-
-Q("Chemistry",
-"A ligand donates electron pair to:",
-["Central metal ion","Proton only","Solvent","Anion only"],0),
-
-Q("Chemistry",
-"NH3 is a:",
-["Monodentate ligand","Bidentate ligand","Tridentate ligand","No ligand"],0),
-
-Q("Chemistry",
-"Formula of ethane is:",
-["C2H6","C2H4","C2H2","CH4"],0),
-
-Q("Chemistry",
-"Functional group of alcohol is:",
-["OH","CHO","COOH","NH2"],0),
-
-Q("Chemistry",
-"Functional group of aldehyde is:",
-["CHO","OH","COOH","NH2"],0),
-
-Q("Chemistry",
-"Functional group of carboxylic acid is:",
-["COOH","OH","CHO","NH2"],0),
-
-Q("Chemistry",
-"Functional group of amine is:",
-["NH2","OH","CHO","COOH"],0),
-
-Q("Chemistry",
-"Formula of benzene is:",
-["C6H6","C6H12","C5H6","C7H8"],0),
-
-Q("Chemistry",
-"PVC is a:",
-["Polymer","Protein","Carbohydrate","Metal"],0),
-
-Q("Chemistry",
-"Proteins are polymers of:",
-["Amino acids","Glucose","Fatty acids","Water"],0),
-
-Q("Chemistry",
-"Glucose is a:",
-["Carbohydrate","Protein","Metal","Polymer only"],0),
-
-Q("Chemistry",
-"Coordination compounds contain:",
-["Central metal ion and ligands","Only carbon","Only hydrogen","Only oxygen"],0)
-
-];
-
-
-/* =========================
-MATHEMATICS
-========================= */
-
-const maths=[
-
-Q("Mathematics",
-"Derivative of xⁿ is:",
-["nxⁿ⁻¹","xⁿ⁺¹","nxⁿ","xⁿ/n"],0),
-
-Q("Mathematics",
-"∫xⁿ dx is:",
-["xⁿ⁺¹/(n+1)+C","nxⁿ⁻¹+C","xⁿ/n+C","lnx+C"],0),
-
-Q("Mathematics",
-"∫1/x dx is:",
-["ln|x|+C","x+C","1/x+C","eˣ+C"],0),
-
-Q("Mathematics",
-"Derivative of sin x is:",
-["cos x","-cos x","tan x","sin x"],0),
-
-Q("Mathematics",
-"Derivative of cos x is:",
-["-sin x","sin x","cos x","tan x"],0),
-
-Q("Mathematics",
-"Derivative of tan x is:",
-["sec²x","cosec²x","tan²x","sinx"],0),
-
-Q("Mathematics",
-"tan⁻¹(1) is:",
-["π/4","π/2","π","0"],0),
-
-Q("Mathematics",
-"Determinant of [[a,b],[c,d]] is:",
-["ad-bc","ab-cd","ac-bd","a+b+c+d"],0),
-
-Q("Mathematics",
-"Determinant of identity matrix is:",
-["0","1","2","-1"],1),
-
-Q("Mathematics",
-"For continuity at x=a:",
-["LHL=RHL=f(a)","LHL≠RHL","f(a)=0","Derivative=0"],0),
-
-Q("Mathematics",
-"∫eˣ dx is:",
-["eˣ+C","xeˣ+C","lnx+C","1/eˣ+C"],0),
-
-Q("Mathematics",
-"∫cos x dx is:",
-["sin x+C","-sin x+C","cos x+C","tan x+C"],0),
-
-Q("Mathematics",
-"Order of differential equation means highest:",
-["Derivative order","Power","Coefficient","Constant"],0),
-
-Q("Mathematics",
-"Dot product of perpendicular vectors is:",
-["0","1","-1","∞"],0),
-
-Q("Mathematics",
-"Magnitude of ai+bj+ck is:",
-["√(a²+b²+c²)","a+b+c","abc","a²+b²+c²"],0),
-
-Q("Mathematics",
-"Probability of a certain event is:",
-["0","1","1/2","-1"],1),
-
-Q("Mathematics",
-"Probability of impossible event is:",
-["0","1","1/2","-1"],0),
-
-Q("Mathematics",
-"P(A|B) equals:",
-["P(A∩B)/P(B)","P(A)+P(B)","P(A)-P(B)","P(A)P(B)"],0),
-
-Q("Mathematics",
-"3D distance formula uses:",
-["√[(x2-x1)²+(y2-y1)²+(z2-z1)²]","x+y+z","xyz","x2-x1"],0),
-
-Q("Mathematics",
-"Linear programming objective function is used to:",
-["Maximize or minimize","Find pH","Find derivative only","Find determinant"],0)
-
-];
-
-
-/* =========================
-CREATE 1800 QUESTIONS
-========================= */
-
-function createBank(){
-
-bank=[];
-
-for(let l=1;l<=TOTAL_LEVELS;l++){
-
-physics.forEach(q=>{
-bank.push({...q,level:l});
-});
-
-chemistry.forEach(q=>{
-bank.push({...q,level:l});
-});
-
-maths.forEach(q=>{
-bank.push({...q,level:l});
-});
-
-}
-
-}
-
-createBank();
-
-
-/* =========================
-SCREEN
-========================= */
-
-function hide(){
-
-document.querySelectorAll(".screen")
-.forEach(x=>x.classList.remove("active"));
-
-}
-
-function showHome(){
-
-hide();
-
-document
-.getElementById("home")
-.classList.add("active");
-
-updateHome();
-
-}
-
-function showLevels(){
-
-hide();
-
-document
-.getElementById("levels")
-.classList.add("active");
-
-renderLevels();
-
-}
-
-
-/* =========================
-HOME
-========================= */
+/* ================= HOME ================= */
 
 function updateHome(){
 
-document.getElementById("levelStat")
-.textContent=unlocked;
+  document.getElementById("currentLevel").textContent=unlocked;
 
-document.getElementById("scoreStat")
-.textContent=highScore;
+  document.getElementById("highScore").textContent=highScore;
 
 }
 
 
-/* =========================
-LEVELS
-========================= */
+/* ================= LEVELS ================= */
 
-function renderLevels(){
+function showLevels(){
 
-const grid=
-document.getElementById("levelGrid");
+  document.getElementById("homeScreen").style.display="none";
 
-grid.innerHTML="";
+  document.getElementById("quizScreen").style.display="none";
 
-document.getElementById("unlockedText")
-.textContent=unlocked;
+  document.getElementById("levelsScreen").style.display="block";
 
-for(let i=1;i<=TOTAL_LEVELS;i++){
+  const grid=document.getElementById("levelGrid");
 
-const b=document.createElement("button");
+  grid.innerHTML="";
 
-b.className="level";
+  for(let i=1;i<=30;i++){
 
-if(i<unlocked){
+    const btn=document.createElement("button");
 
-b.classList.add("done");
-b.textContent="✓ "+i;
+    btn.className="levelBtn "+(i<=unlocked?"open":"locked");
 
-}
+    btn.textContent=i<=unlocked ? "LEVEL "+i : "🔒 "+i;
 
-else if(i===unlocked){
+    if(i<=unlocked){
+      btn.onclick=()=>startLevel(i);
+    }
 
-b.textContent="▶ "+i;
+    grid.appendChild(btn);
 
-}
-
-else{
-
-b.classList.add("lock");
-b.textContent="🔒 "+i;
-b.disabled=true;
-
-}
-
-if(i<=unlocked){
-
-b.onclick=()=>{
-startLevel(i);
-};
-
-}
-
-grid.appendChild(b);
-
-}
+  }
 
 }
 
 
-/* =========================
-START
-========================= */
+function goHome(){
 
-function startLevel(l){
+  document.getElementById("levelsScreen").style.display="none";
 
-level=l;
+  document.getElementById("quizScreen").style.display="none";
 
-score=0;
-index=0;
+  document.getElementById("homeScreen").style.display="block";
 
-questions=bank
-.filter(q=>q.level===l);
-
-questions=shuffle(questions);
-
-document.getElementById("levelName")
-.textContent="Level "+l;
-
-hide();
-
-document
-.getElementById("quiz")
-.classList.add("active");
-
-showQuestion();
+  updateHome();
 
 }
 
 
-/* =========================
-SHUFFLE
-========================= */
+/* ================= START LEVEL ================= */
 
-function shuffle(array){
+function startLevel(level){
 
-return [...array]
-.sort(()=>Math.random()-.5);
+  currentQuestions=bank.filter(x=>x.level===level);
+
+  currentQuestions=currentQuestions.sort(()=>Math.random()-.5);
+
+  questionIndex=0;
+
+  score=0;
+
+  document.getElementById("levelsScreen").style.display="none";
+
+  document.getElementById("quizScreen").style.display="block";
+
+  showQuestion();
 
 }
 
 
-/* =========================
-QUESTION
-========================= */
+/* ================= SHOW QUESTION ================= */
 
 function showQuestion(){
 
-if(index>=questions.length){
+  answered=false;
 
-finish();
+  const item=currentQuestions[questionIndex];
 
-return;
+  const progress=((questionIndex)/currentQuestions.length)*100;
 
-}
+  const html=`
 
-const q=questions[index];
+    <div class="subject">
+      ${item.subject}
+    </div>
 
-document.getElementById("subject")
-.textContent=q.subject;
+    <p>
+      Question ${questionIndex+1} / ${currentQuestions.length}
+    </p>
 
-document.getElementById("qnumber")
-.textContent=
-`Question ${index+1} / 60`;
+    <div class="progress">
+      <div class="progressBar" style="width:${progress}%"></div>
+    </div>
 
-document.getElementById("progressBar")
-.style.width=
-`${index/60*100}%`;
+    <div class="question">
+      ${item.q}
+    </div>
 
-document.getElementById("question")
-.textContent=q.text;
+    <div id="options"></div>
 
-const box=
-document.getElementById("options");
+  `;
 
-box.innerHTML="";
+  document.getElementById("quizContent").innerHTML=html;
 
-q.options.forEach((op,i)=>{
+  const options=[...item.options].sort(()=>Math.random()-.5);
 
-const b=document.createElement("button");
+  const box=document.getElementById("options");
 
-b.className="option";
+  options.forEach(option=>{
 
-b.textContent=
-String.fromCharCode(65+i)+". "+op;
+    const btn=document.createElement("button");
 
-b.onclick=()=>answer(i,b);
+    btn.className="option";
 
-box.appendChild(b);
+    btn.textContent=option;
 
-});
+    btn.onclick=()=>answer(btn,option,item.answer);
 
-}
+    box.appendChild(btn);
 
-
-/* =========================
-ANSWER
-========================= */
-
-function answer(selected,button){
-
-const q=questions[index];
-
-const all=
-document.querySelectorAll(".option");
-
-all.forEach(x=>x.disabled=true);
-
-if(selected===q.answer){
-
-button.classList.add("correct");
-score++;
-
-}else{
-
-button.classList.add("wrong");
-
-all[q.answer]
-.classList.add("correct");
-
-}
-
-setTimeout(()=>{
-
-index++;
-showQuestion();
-
-},650);
+  });
 
 }
 
 
-/* =========================
-FINISH
-========================= */
+/* ================= ANSWER ================= */
 
-function finish(){
+function answer(button,selected,correct){
 
-document.getElementById("progressBar")
-.style.width="100%";
+  if(answered)return;
 
-if(score>highScore){
+  answered=true;
 
-highScore=score;
+  const buttons=document.querySelectorAll(".option");
 
-localStorage.setItem(
-"studyHighScore",
-highScore
-);
+  buttons.forEach(btn=>{
 
-}
+    if(btn.textContent===correct){
+      btn.classList.add("correct");
+    }
 
-let next=false;
+  });
 
-if(level===unlocked &&
-level<TOTAL_LEVELS){
+  if(selected===correct){
 
-unlocked++;
+    button.classList.add("correct");
 
-localStorage.setItem(
-"studyUnlocked",
-unlocked
-);
+    score++;
 
-next=true;
+  }else{
 
-}
+    button.classList.add("wrong");
 
-document.getElementById("resultScore")
-.textContent=`${score} / 60`;
+  }
 
-if(score>=50){
+  setTimeout(()=>{
 
-document.getElementById("resultTitle")
-.textContent="🔥 Excellent!";
+    questionIndex++;
 
-}
+    if(questionIndex<currentQuestions.length){
 
-else if(score>=35){
+      showQuestion();
 
-document.getElementById("resultTitle")
-.textContent="👏 Great Job!";
+    }else{
 
-}
+      finishLevel();
 
-else{
+    }
 
-document.getElementById("resultTitle")
-.textContent="💪 Keep Practising!";
-
-}
-
-document.getElementById("resultText")
-.textContent=
-next
-?`🎉 Level ${level+1} unlocked!`
-:"You can replay this level.";
-
-hide();
-
-document
-.getElementById("result")
-.classList.add("active");
+  },650);
 
 }
 
 
-/* =========================
-CONTINUE
-========================= */
+/* ================= FINISH ================= */
 
-function continueGame(){
+function finishLevel(){
 
-if(level<TOTAL_LEVELS &&
-level<unlocked){
+  if(score>highScore){
 
-startLevel(level+1);
+    highScore=score;
 
-}else{
+    localStorage.setItem("highScore",highScore);
 
-showLevels();
+  }
 
-}
+  const completedLevel=currentQuestions[0].level;
 
-}
+  if(completedLevel>=unlocked && unlocked<30){
 
+    unlocked=completedLevel+1;
 
-/* =========================
-DOWNLOAD
-========================= */
+    localStorage.setItem("unlockedLevel",unlocked);
 
-function downloadGame(){
+  }
 
-const source=
-"<!DOCTYPE html>\n"+
-document.documentElement.outerHTML;
+  document.getElementById("quizContent").innerHTML=`
 
-const blob=
-new Blob([source],
-{type:"text/html"});
+    <div class="result">
 
-const url=
-URL.createObjectURL(blob);
+      <div style="font-size:70px">🏆</div>
 
-const a=
-document.createElement("a");
+      <h2>Level Complete!</h2>
 
-a.href=url;
+      <p style="font-size:22px">
+        Score: <b>${score}/${currentQuestions.length}</b>
+      </p>
 
-a.download=
-"Study-Quiz-Pro.html";
+      <button class="playBtn" onclick="showLevels()">
+        🎮 SELECT LEVEL
+      </button>
 
-document.body.appendChild(a);
+      <button class="secondary" onclick="goHome()">
+        🏠 HOME
+      </button>
 
-a.click();
+    </div>
 
-a.remove();
-
-URL.revokeObjectURL(url);
+  `;
 
 }
 
 
-/* =========================
-RESET
-========================= */
+/* ================= RESET ================= */
 
 function resetProgress(){
 
-if(!confirm(
-"Reset all game progress?"
-))return;
+  if(confirm("Reset all progress?")){
 
-localStorage.removeItem("studyUnlocked");
-localStorage.removeItem("studyHighScore");
+    localStorage.removeItem("unlockedLevel");
 
-unlocked=1;
-highScore=0;
+    localStorage.removeItem("highScore");
 
-updateHome();
+    unlocked=1;
 
-alert(
-"Progress reset successfully! 🔄"
-);
+    highScore=0;
+
+    updateHome();
+
+    alert("Progress reset successfully!");
+
+  }
 
 }
+
+
+/* ================= DOWNLOAD ================= */
+
+function downloadGame(){
+
+  const html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+
+  const blob=new Blob([html],{type:"text/html"});
+
+  const url=URL.createObjectURL(blob);
+
+  const a=document.createElement("a");
+
+  a.href=url;
+
+  a.download="Study-Quiz-Pro.html";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* ================= INITIALIZE ================= */
 
 updateHome();
 
