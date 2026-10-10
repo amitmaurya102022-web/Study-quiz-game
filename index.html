@@ -3,133 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Quiz Pro - Class 12 PCM | 15 Levels Quiz Game</title>
-<meta name="description" content="Class 12 Physics Chemistry Maths 900 Questions Quiz Game. 15 Levels, Installable App.">
- <meta name="monetag" content="1cd36d500a27006b4a46be0694b09bbc">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2563eb">
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2232/2232688.png">
+<meta name="monetag" content="1cd3c9d3b8f1d9fbc1cfb1ba1eacbc1a6">
+<title>Study Quiz Pro</title>
 <style>
-body{font-family:system-ui;margin:0;background:#f1f5f9}
-.header{background:white;padding:15px;text-align:center;box-shadow:0 2px 10px #0001;position:sticky;top:0;z-index:10}
-#installBtn{display:none;background:#22c55e;color:white;border:0;padding:8px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:10px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:15px}
-.card{background:white;padding:20px;border-radius:15px;text-align:center;box-shadow:0 4px 10px #0001;cursor:pointer;font-weight:bold}
-.card.lock{opacity:.5}
-.quiz{display:none;padding:15px}
-.opt{background:white;padding:12px;margin:8px 0;border-radius:10px;cursor:pointer;border:2px solid #e2e8f0}
-#installModal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0008;z-index:100;align-items:center;justify-content:center}
-#installModal.box{background:white;padding:20px;border-radius:15px;width:85%;text-align:center}
+body{font-family:Arial;text-align:center;background:#f0f4ff;margin:0}
+.header{background:white;padding:15px;box-shadow:0 2px 5px #ccc}
+#quiz{max-width:400px;margin:20px auto;background:white;padding:20px;border-radius:15px;box-shadow:0 4px 10px #ccc}
+button{width:100%;padding:12px;margin:8px 0;border:0;border-radius:8px;background:#4a6cf7;color:white;font-size:16px}
+button:active{background:#2d4de0}
 </style>
 </head>
 <body>
 <div class="header">
-<div style="font-size:50px">📚</div>
-<h2 style="margin:5px">Study Quiz Pro</h2>
-<button id="installBtn">📲 Install App</button>
-<div id="lives">❤️ 3 Lives | Level: <span id="lvTxt">1</span></div>
+  <div style="font-size:50px">📚</div>
+  <h2>Study Quiz Pro</h2>
+  <div>❤️ <span id="lives">3</span> Lives | Level: <span id="level">1</span></div>
 </div>
 
-<div id="levelPage" class="grid"></div>
-<div id="subjectPage" class="grid" style="display:none"></div>
-<div id="quizPage" class="quiz">
-<h3 id="qText"></h3>
-<div id="opts"></div>
-<button onclick="nextQ()" style="margin-top:15px;padding:10px 20px;background:#2563eb;color:white;border:0;border-radius:10px">Next</button>
+<div id="quiz">
+  <h3 id="question">Loading...</h3>
+  <div id="options"></div>
+  <p id="msg"></p>
 </div>
-
-<div id="installModal"><div class="box">
-<h3>App Install Karo</h3>
-<p>Chrome ke upar <b>3 dots ⋮</b> par click karo > <b>Add to Home Screen / Install App</b> dabao</p>
-<button onclick="document.getElementById('installModal').style.display='none'" style="background:#2563eb;color:white;border:0;padding:8px 20px;border-radius:10px">OK</button>
-</div></div>
 
 <script>
-// PWA Install Logic - No Alert
-let deferredPrompt;
-const installBtn = document.getElementById('installBtn');
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'inline-block';
-});
-installBtn.addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    installBtn.style.display = 'none';
-  } else {
-    document.getElementById('installModal').style.display = 'flex';
-  }
-});
-if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+// === EARNING SETTING ===
+const AD_LINK = "YAHAN_APNA_LINK_DALO"; // <-- yahan apna Adsterra/Monetag DirectLink dalo
 
-// --- GAME LOGIC - 900 QUESTIONS ---
-const TOTAL_LEVELS=15;
-let currentLevel=1, currentSubject='', questions=[], qIndex=0, lives=3;
-const levelPage=document.getElementById('levelPage');
-for(let i=1;i<=TOTAL_LEVELS;i++){
-  levelPage.innerHTML+=`<div class="card" onclick="openSubjects(${i})">Level ${i}<br><small>60 Q</small></div>`;
-}
-function openSubjects(lv){
-  currentLevel=lv; document.getElementById('lvTxt').innerText=lv;
-  levelPage.style.display='none';
-  const sp=document.getElementById('subjectPage');
-  sp.style.display='grid';
-  sp.innerHTML=`<div class="card" onclick="startQuiz('physics')">⚛️ Physics<br><small>300 Q</small></div>
-  <div class="card" onclick="startQuiz('chemistry')">🧪 Chemistry<br><small>300 Q</small></div>
-  <div class="card" onclick="startQuiz('maths')">📐 Maths<br><small>300 Q</small></div>
-  <div class="card" onclick="backToLevels()">⬅️ Back</div>`;
-}
-function backToLevels(){ document.getElementById('subjectPage').style.display='none'; levelPage.style.display='grid'; document.getElementById('quizPage').style.display='none'; }
-function makeBank(sub){
-  const bank=[];
-  for(let L=1;L<=15;L++){
-    for(let i=1;i<=20;i++){
-      bank.push({level:L, q:`${sub.toUpperCase()} - Level ${L} Question ${i}: What is the correct answer for concept ${L*20+i}?`, opts:['Option A','Option B','Option C','Option D'], ans: i%4 });
-    }
-  }
-  return bank;
-}
-const allBanks={ physics:makeBank('physics'), chemistry:makeBank('chemistry'), maths:makeBank('maths') };
-function startQuiz(sub){
-  currentSubject=sub;
-  questions=allBanks[sub].filter(q=>q.level===currentLevel);
-  qIndex=0;
-  document.getElementById('subjectPage').style.display='none';
-  document.getElementById('quizPage').style.display='block';
-  showQ();
-}
+let lives = 3;
+let level = 1;
+let qIndex = 0;
+
+const questions = [
+ {q:"Bharat ka Rashtriya Pashu kaun hai?", o:["Sher","Bagh","Hathi","Gai"], a:1},
+ {q:"Computer ka dimag kise kehte hain?", o:["RAM","CPU","Keyboard","Mouse"], a:1},
+ {q:"Ganga nadi kahan se nikalti hai?", o:["Yamuna","Gangotri","Himalaya","Ladakh"], a:1},
+ {q:"1 GB me kitne MB hote hain?", o:["100","1024","500","1000"], a:1},
+ {q:"HTML ka full form?", o:["High Text","HyperText Markup Language","Hello Text","None"], a:1}
+];
+
 function showQ(){
-  if(qIndex>=questions.length){ alert('Level Complete!'); backToLevels(); return; }
-  const q=questions[qIndex];
-  document.getElementById('qText').innerText=`Q${qIndex+1}. ${q.q}`;
-  const oDiv=document.getElementById('opts'); oDiv.innerHTML='';
-  q.opts.forEach((o,idx)=>{
-    const d=document.createElement('div'); d.className='opt'; d.innerText=o;
-    d.onclick=()=>{ if(idx===q.ans){ d.style.borderColor='green'; } else { d.style.borderColor='red'; lives--; document.getElementById('lives').innerText=`❤️ ${lives} Lives | Level: ${currentLevel}`; if(lives<=0){alert('Game Over'); location.reload();} } };
-    oDiv.appendChild(d);
-  })
- function nextQ(){ 
-  qIndex++; 
-  // Har 3 sawal par ad khulega - isse earning hogi
-  if(qIndex % 3 == 0){
-    window.open("YAHAN APNA DIRECT LINK DALO", "_blank");
+  if(qIndex >= questions.length){
+    document.getElementById("question").innerText = "🎉 Level Complete!";
+    document.getElementById("options").innerHTML = `<button onclick="nextLevel()">Next Level - Ad Dekho</button>`;
+    // Earning Ad on Level Complete
+    if(AD_LINK.startsWith("http")) window.open(AD_LINK, "_blank");
+    return;
   }
-  showQ();
- }
-</script>
- <script>
-  // Quiz khatam hone par extra earning ad
-  const oldShowQ = showQ;
-  window.showQ = function(){
-    if(qIndex >= questions.length){
-      alert("Quiz Khatam! Result dekhne ke liye ad dekho.");
-      window.open("YAHAN APNA DIRECT LINK DALO", "_blank");
+  let q = questions[qIndex];
+  document.getElementById("question").innerText = q.q;
+  let html = "";
+  q.o.forEach((opt,i)=>{
+    html += `<button onclick="checkAns(${i})">${opt}</button>`;
+  });
+  document.getElementById("options").innerHTML = html;
+}
+
+function checkAns(i){
+  if(i === questions[qIndex].a){
+    qIndex++;
+    // Har 2 sawal par ad
+    if(qIndex % 2 == 0 && AD_LINK.startsWith("http")){
+      window.open(AD_LINK, "_blank");
     }
-    oldShowQ();
+    showQ();
+  } else {
+    lives--;
+    document.getElementById("lives").innerText = lives;
+    document.getElementById("msg").innerText = "❌ Galat jawab! Koshish karo";
+    if(lives <=0){
+      alert("Game Over! Fir se shuru karo");
+      lives=3; level=1; qIndex=0;
+      document.getElementById("lives").innerText = lives;
+    }
   }
- </script>
+}
+
+function nextLevel(){
+  level++;
+  qIndex=0;
+  document.getElementById("level").innerText = level;
+  document.getElementById("msg").innerText = "";
+  showQ();
+}
+
+showQ();
+</script>
 </body>
 </html>
