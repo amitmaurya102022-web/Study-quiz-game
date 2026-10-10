@@ -1,53 +1,43 @@
 <!DOCTYPE html>
-<html lang="hi"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1800 Q - 30 Level</title>
-<meta name="monetag" content="YOUR_CODE">
-<script src="https://alwingulla.com/88/tag.min.js" data-zone="YOUR_ZONE_ID" async></script>
-<style>body{font-family:Arial;background:#eef2ff;margin:0;padding:10px;text-align:center}.box{background:#fff;max-width:560px;margin:auto;padding:16px;border-radius:16px}.btn{width:100%;padding:12px;margin:6px 0;border:0;border-radius:10px;background:#4f46e5;color:#fff}.levelGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.levelBtn{border:2px solid #4f46e5;background:#fff;color:#4f46e5;padding:10px;border-radius:8px;font-weight:bold}#installBtn{background:#10b981;display:none}</style>
-</head><body>
-<div class="box">
-<button id="installBtn" class="btn">📲 Install App</button>
-<h2>📚 1800 Different Qs - 30 Levels</h2>
-<div id="s1"><button class="btn" onclick="sel('physics')">⚛️ Physics - 600 Different</button><button class="btn" style="background:#ec4899" onclick="sel('chemistry')">🧪 Chemistry - 600 Different</button><button class="btn" style="background:#8b5cf6" onclick="sel('maths')">📐 Maths - 600 Different</button></div>
-<div id="s2" style="display:none"><h3 id="lt"></h3><div class="levelGrid" id="lg"></div><button class="btn" onclick="location.reload()">Back</button></div>
-<div id="s3" style="display:none"><div style="display:flex;justify-content:space-between;font-weight:bold"><span>❤️ <span id="lives">3</span></span><span id="linfo"></span><span>Q <span id="qn">1</span>/20</span></div><h3 id="q"></h3><div id="opts"></div><p id="msg"></p><button onclick="nextQ()" class="btn">Next</button></div>
-</div>
-<script>
-let deferredPrompt;const ib=document.getElementById('installBtn');
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;ib.style.display='block';});
-ib.addEventListener('click',()=>{if(deferredPrompt)deferredPrompt.prompt();});
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCM Master - 1800 Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0f172a;color:white;padding-bottom:70px}
+.header{background:linear-gradient(90deg,#ff6a00,#ee0979);padding:15px;text-align:center;position:sticky;top:0}
+.wallet{background:#1e293b;margin:10px;border-radius:12px;padding:12px;display:flex;justify-content:space-between}
+.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:12px}
+.level-card{background:#1e293b;border-radius:15px;padding:15px;text-align:center;border:2px solid #334155}
+.level-card.unlocked{border-color:#22c55e}
+.level-card.locked{opacity:0.5}
+.btn{padding:8px;border:none;border-radius:8px;font-weight:bold;width:100%;margin-top:8px;cursor:pointer}
+.btn-play{background:#22c55e;color:white}
+.btn-lock{background:#475569;color:white}
+#quizBox{position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;z-index:100;display:none;padding:15px;overflow:auto}
+.option{background:#1e293b;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #475569;cursor:pointer}
+.option.correct{background:#16a34a!important}
+.option.wrong{background:#dc2626!important}
+.install-bar{background:#22c55e;color:white;padding:12px;text-align:center;position:fixed;bottom:0;width:100%}
+</style>
+</head>
+<body>
+<div class="header"><h2>📚 PCM MASTER - 1800 Qs</h2><p>Board + NCERT + JEE | 30 Levels</p></div>
+<div class="wallet"><div>💰 ₹<span id="earn">0</span></div><div>Level <span id="curL">1</span>/30</div><div><button onclick="withdraw()" style="background:#f59e0b;padding:5px 10px;border:none;border-radius:6px">Withdraw</button></div></div>
+<div id="levelContainer" class="level-grid"></div>
+<div class="install-bar">📲 App Install Karo ₹50 Pao <button onclick="installApp()" style="background:white;color:green;padding:6px 12px;border:none;border-radius:6px;margin-left:10px">INSTALL</button></div>
+<div id="quizBox"><h3 id="quizTitle"></h3><h2 id="questionText" style="margin:15px 0"></h2><div id="options"></div><button onclick="closeQuiz()" style="margin-top:20px;background:#475569;color:white;padding:10px;width:100%;border:none;border-radius:8px">Exit</button></div>
 
-function makePhysics(){
- let arr=[];for(let i=0;i<600;i++){
-  let m=5+i, a=2+(i%10), f=m*a;
-  let q=`Physics: Mass ${m}kg, Acc ${a}m/s², Force =?`;
-  let opts=[f, f+5, f-3, f+10].map(String); arr.push({q,a:opts,c:0});
- }return arr;
-}
-function makeChemistry(){
- let arr=[];let elems=["H=1","He=2","Li=3","Be=4","B=5","C=6","N=7","O=8","F=9","Na=11"];
- for(let i=0;i<600;i++){
-  let e=elems[i%elems.length];
-  let q=`Chemistry: Atomic No. of element with ${e}? - Q${i+1}`;
-  let correct=e.split("=")[1]; let opts=[correct, parseInt(correct)+1, parseInt(correct)+2, parseInt(correct)-1].map(String);
-  arr.push({q,a:opts,c:0});
- }return arr;
-}
-function makeMaths(){
- let arr=[];for(let i=0;i<600;i++){
-  let x=2+i, sq=x*x;
-  let q=`Maths: If x=${x}, x² =?`;
-  let opts=[sq, sq+1, sq-1, sq+2].map(String);
-  arr.push({q,a:opts,c:0});
- }return arr;
-}
-function chunk(a){let lv=[];for(let i=0;i<30;i++)lv.push(a.slice(i*20,(i+1)*20));return lv;}
-const allData={physics:chunk(makePhysics()),chemistry:chunk(makeChemistry()),maths:chunk(makeMaths())};
-let curSub='',curLvl=0,qi=0,lives=3;
-function sel(sub){curSub=sub;document.getElementById('s1').style.display='none';document.getElementById('s2').style.display='block';document.getElementById('lt').innerText=sub+" - 30 Levels";let g=document.getElementById('lg');g.innerHTML='';for(let i=0;i<30;i++)g.innerHTML+=`<button class="levelBtn" onclick="startL(${i})">L${i+1}</button>`;}
-function startL(l){curLvl=l;qi=0;lives=3;document.getElementById('s2').style.display='none';document.getElementById('s3').style.display='block';document.getElementById('linfo').innerText='Level '+(l+1);showQ();}
-function showQ(){let q=allData[curSub][curLvl][qi];document.getElementById('qn').innerText=qi+1;document.getElementById('lives').innerText=lives;document.getElementById('q').innerText=q.q;let h='';q.a.forEach((o,i)=>h+=`<button class="btn" onclick="check(${i},this)">${o}</button>`);document.getElementById('opts').innerHTML=h;document.getElementById('msg').innerText='';}
-function check(i,btn){let q=allData[curSub][curLvl][qi];if(i===q.c){document.getElementById('msg').innerText='✅ Sahi';btn.style.background='#10b981'}else{lives--;document.getElementById('msg').innerText='❌ Sahi:'+q.a[q.c];btn.style.background='#ef4444';if(lives<=0){alert('Game Over');location.reload()}}}
-function nextQ(){qi++;if(qi>=20){alert('Level Complete!');document.getElementById('s3').style.display='none';document.getElementById('s2').style.display='block';}else showQ();}
-</script></body></html>
+<script>
+const TOTAL_LEVELS=30, QS_PER_LEVEL=60;
+let earning=parseInt(localStorage.getItem('pcm_earn')||'0');
+let unlocked=parseInt(localStorage.getItem('pcm_unlocked')||'1');
+document.getElementById('earn').innerText=earning;
+
+// 1800 QUESTIONS AUTO GENERATE (Aap yaha apne real questions daal sakte ho)
+const bank=[];
+const subs=['Physics','Chemistry','Maths'];
+for(let lvl=1;lvl<=30;lvl++){
+ for(let i=0;i
