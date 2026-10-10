@@ -3,91 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="monetag" content="1cd3c9d3b8f1d9fbc1cfb1ba1eacbc1a6">
-<title>Study Quiz Pro</title>
+<title>Study Quiz Pro - Class 12 PCM</title>
+<meta name="monetag" content="5d9d1ee1be1e5a1e0a1c1a1a1a1a1a1a1">
 <style>
-body{font-family:Arial;text-align:center;background:#f0f4ff;margin:0}
-.header{background:white;padding:15px;box-shadow:0 2px 5px #ccc}
-#quiz{max-width:400px;margin:20px auto;background:white;padding:20px;border-radius:15px;box-shadow:0 4px 10px #ccc}
-button{width:100%;padding:12px;margin:8px 0;border:0;border-radius:8px;background:#4a6cf7;color:white;font-size:16px}
-button:active{background:#2d4de0}
+body{font-family: Arial; background:#f0f4ff; margin:0; padding:15px; text-align:center}
+.box{background:white; max-width:500px; margin:20px auto; padding:20px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+h1{color:#4f46e5}
+.btn{display:block; width:100%; padding:12px; margin:8px 0; border:2px solid #e0e0e0; border-radius:10px; background:#fff; font-size:16px}
+.btn:active{background:#4f46e5; color:white}
+#score{font-weight:bold; color:green}
 </style>
 </head>
 <body>
-<div class="header">
-  <div style="font-size:50px">📚</div>
-  <h2>Study Quiz Pro</h2>
-  <div>❤️ <span id="lives">3</span> Lives | Level: <span id="level">1</span></div>
-</div>
-
-<div id="quiz">
-  <h3 id="question">Loading...</h3>
-  <div id="options"></div>
-  <p id="msg"></p>
+<div class="box">
+<h1>📚 Class 12 PCM Quiz</h1>
+<p>Score: <span id="score">0</span> | Q: <span id="qnum">1</span>/10</p>
+<h3 id="question">Loading...</h3>
+<div id="options"></div>
+<p id="result"></p>
+<button onclick="nextQ()" style="background:#4f46e5;color:white;padding:10px 20px;border:none;border-radius:8px;margin-top:10px;">Next Question</button>
 </div>
 
 <script>
-// === EARNING SETTING ===
-const AD_LINK = "YAHAN_APNA_LINK_DALO"; // <-- yahan apna Adsterra/Monetag DirectLink dalo
-
-let lives = 3;
-let level = 1;
-let qIndex = 0;
-
-const questions = [
- {q:"Bharat ka Rashtriya Pashu kaun hai?", o:["Sher","Bagh","Hathi","Gai"], a:1},
- {q:"Computer ka dimag kise kehte hain?", o:["RAM","CPU","Keyboard","Mouse"], a:1},
- {q:"Ganga nadi kahan se nikalti hai?", o:["Yamuna","Gangotri","Himalaya","Ladakh"], a:1},
- {q:"1 GB me kitne MB hote hain?", o:["100","1024","500","1000"], a:1},
- {q:"HTML ka full form?", o:["High Text","HyperText Markup Language","Hello Text","None"], a:1}
+const quiz=[
+{q:"Physics: Force ka SI unit kya hai?",a:["Joule","Newton","Watt","Pascal"],c:1},
+{q:"Chemistry: H2O kya hai?",a:["Acid","Base","Water","Salt"],c:2},
+{q:"Maths: sin 90° ka maan?",a:["0","1","0.5","-1"],c:1},
+{q:"Physics: Light ki speed kitni hai?",a:["3x10^8 m/s","3x10^6 m/s","3x10^5 m/s","3x10^7 m/s"],c:0},
+{q:"Chemistry: NaCl kya hai?",a:["Chini","Namak","Acid","Base"],c:1},
+{q:"Maths: d/dx(x²) =?",a:["x","2x","x²","2"],c:1},
+{q:"Physics: Power ka formula?",a:["F×d","W/t","m×a","mv"],c:1},
+{q:"Chemistry: pH 7 matlab?",a:["Acidic","Basic","Neutral","Salt"],c:2},
+{q:"Maths: π ka value?",a:["3.14","2.14","4.14","3.0"],c:0},
+{q:"Biology (Extra): DNA ka full form?",a:["Deoxyribonucleic Acid","Data Acid","Double Acid","None"],c:0}
 ];
-
+let idx=0, score=0;
 function showQ(){
-  if(qIndex >= questions.length){
-    document.getElementById("question").innerText = "🎉 Level Complete!";
-    document.getElementById("options").innerHTML = `<button onclick="nextLevel()">Next Level - Ad Dekho</button>`;
-    // Earning Ad on Level Complete
-    if(AD_LINK.startsWith("http")) window.open(AD_LINK, "_blank");
-    return;
-  }
-  let q = questions[qIndex];
-  document.getElementById("question").innerText = q.q;
-  let html = "";
-  q.o.forEach((opt,i)=>{
-    html += `<button onclick="checkAns(${i})">${opt}</button>`;
+  document.getElementById("qnum").innerText=idx+1;
+  document.getElementById("question").innerText=quiz[idx].q;
+  let html="";
+  quiz[idx].a.forEach((opt,i)=>{
+    html+=`<button class="btn" onclick="check(${i})">${opt}</button>`;
   });
-  document.getElementById("options").innerHTML = html;
+  document.getElementById("options").innerHTML=html;
+  document.getElementById("result").innerText="";
 }
-
-function checkAns(i){
-  if(i === questions[qIndex].a){
-    qIndex++;
-    // Har 2 sawal par ad
-    if(qIndex % 2 == 0 && AD_LINK.startsWith("http")){
-      window.open(AD_LINK, "_blank");
-    }
-    showQ();
+function check(i){
+  if(i===quiz[idx].c){
+    score++;
+    document.getElementById("score").innerText=score;
+    document.getElementById("result").innerText="✅ Sahi Jawab!";
   } else {
-    lives--;
-    document.getElementById("lives").innerText = lives;
-    document.getElementById("msg").innerText = "❌ Galat jawab! Koshish karo";
-    if(lives <=0){
-      alert("Game Over! Fir se shuru karo");
-      lives=3; level=1; qIndex=0;
-      document.getElementById("lives").innerText = lives;
-    }
+    document.getElementById("result").innerText="❌ Galat Jawab! Sahi hai: "+quiz[idx].a[quiz[idx].c];
   }
 }
-
-function nextLevel(){
-  level++;
-  qIndex=0;
-  document.getElementById("level").innerText = level;
-  document.getElementById("msg").innerText = "";
-  showQ();
+function nextQ(){
+  idx++;
+  if(idx<quiz.length){ showQ(); }
+  else {
+    document.getElementById("question").innerText="Quiz Khatam! Final Score: "+score+"/10";
+    document.getElementById("options").innerHTML="<button class='btn' onclick='location.reload()'>Fir se Khelo</button>";
+  }
 }
-
-showQ();
+window.onload=showQ;
 </script>
 </body>
 </html>
